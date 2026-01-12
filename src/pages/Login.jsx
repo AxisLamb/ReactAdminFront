@@ -67,7 +67,7 @@ const Login = () => {
             </Button>
           </Form.Item>
           <div style={{textAlign: 'center', color: '#888'}}>
-             Default: admin / password
+             Default: admin / admin123
           </div>
         </Form>
       </Card>
