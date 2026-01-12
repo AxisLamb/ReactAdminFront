@@ -18,6 +18,13 @@
 - **运行环境**: Node.js v22.17.0
 - **UI框架**: Ant Design React 5.x
 
+## 后端启动方法
+如果没有数据库需要预先安装数据库。执行命令：
+```bash
+mvn clean install
+```
+参考下面的`数据库配置示例`，`文件存储配置示例`，`缓存配置示例` 修改配置文件 `application-dev.yml`，并启动项目。
+
 ## 前端启动方法
 To start the frontend application, simply run these two commands:
 ```bash
