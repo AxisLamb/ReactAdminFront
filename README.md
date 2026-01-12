@@ -13,6 +13,7 @@
 - **安全认证**: Sa-Token 1.40.0
 - **数据库连接池**: Druid 1.2.20
 - **文档工具**: Knife4j 4.4.0
+- **后端仓库**: [ReactAdmin](https://github.com/AxisLamb/ReactAdmin)
 
 #### 前端技术栈
 - **运行环境**: Node.js v22.17.0
