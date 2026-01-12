@@ -18,6 +18,13 @@
 - **运行环境**: Node.js v22.17.0
 - **UI框架**: Ant Design React 5.x
 
+## 前端启动方法
+To start the frontend application, simply run these two commands:
+```bash
+npm install
+npm run dev
+```
+
 ## 核心特性
 
 ### 1. 多数据库支持
