@@ -16,7 +16,9 @@
 - **后端仓库**: [ReactAdmin](https://github.com/AxisLamb/ReactAdmin)
 
 #### 前端技术栈
-- **运行环境**: Node.js v22.17.0
+- **运行环境**: Node.js 22.17.0
+- **React版本**: 19.x
+- **构建工具**: Vite 7.x
 - **UI框架**: Ant Design React 5.x
 - **前端仓库**: [ReactAdminFront](https://github.com/AxisLamb/ReactAdminFront)
 
@@ -52,9 +54,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      # SQL Server 配置示例，可以按需改成Oracle，PostgreSQL等数据库等
+      # SQL Server 配置示例，可以按需改成MySQL，Oracle，PostgreSQL数据库等
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      url: jdbc:sqlserver://192.168.1.130:1433;DatabaseName=test;encrypt=false
+      url: jdbc:sqlserver://localhost:1433;DatabaseName=test;encrypt=false
       username: sa
       password: admin123
 ```
@@ -80,7 +82,7 @@ os:
       base-path: ./uploads # 本地存储路径
     
     minio:
-      endpoint: http://10.37.131.224:9000
+      endpoint: http://localhost:9000
       access-key: admin
       secret-key: password
     
@@ -120,11 +122,9 @@ os:
 - **用户管理**: 用户账号、个人信息管理
 - **角色管理**: 权限分配与角色管理
 - **菜单管理**: 动态菜单配置
-- **部门管理**: 组织架构管理
 - **系统日志**: 操作审计日志
 - **数据字典**: 系统参数配置
 - **文件管理**: 多存储后端文件管理
-- **内容管理**: 文章、分类、标签管理
 
 ### 安全机制
 - **权限控制**: 基于 RBAC 模型的细粒度权限控制

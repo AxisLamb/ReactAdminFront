@@ -24,8 +24,6 @@ export const AuthProvider = ({ children }) => {
       setToken(storedToken ? storedToken : tokenParam);
       setIsLoggedIn(true);
       try {
-        // const userInfo = await mockApi.getUserInfo(token);
-        // const allMenus = await mockApi.getMenus();
         // Usage
         const allMenus = await menuService.getMenus();
         const userInfo = await userService.getUserInfo();
@@ -46,16 +44,9 @@ export const AuthProvider = ({ children }) => {
   };
   
   useEffect(() => {
-    // Check if token exists in localStorage on initial load
-    // const storedToken = localStorage.getItem('satoken');
-    // if (storedToken) {
-    //   setToken(storedToken);
-    //   setIsLoggedIn(true);
-    // }
-    initAuth();
-  //   if (!token) {
-  //     logout();
-  //   }
+    setTimeout(() => { // Simulate a delay for loading
+      initAuth();
+    }, 200);
   }, [token]);
 
   const login = async (username, password) => {
