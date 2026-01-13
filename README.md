@@ -18,6 +18,7 @@
 #### 前端技术栈
 - **运行环境**: Node.js v22.17.0
 - **UI框架**: Ant Design React 5.x
+- **前端仓库**: [ReactAdminFront](https://github.com/AxisLamb/ReactAdminFront)
 
 ## 后端启动方法
 如果没有数据库需要预先安装数据库。执行命令：
@@ -40,10 +41,10 @@ npm run dev
 项目支持多种主流数据库，可根据实际需求灵活切换：
 
 #### 已集成数据库驱动
-- **MySQL**: 通过 `mysql-connector-j` 驱动支持
-- **SQL Server**: 通过 `mssql-jdbc` 驱动支持
-- **PostgreSQL**: 可通过配置启用
-- **Oracle**: 可通过添加驱动支持
+- **MySQL**
+- **SQL Server**
+- **PostgreSQL**
+- **Oracle**
 
 #### 数据库配置示例
 ```yaml
@@ -51,7 +52,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      # SQL Server 配置示例
+      # SQL Server 配置示例，可以按需改成Oracle，PostgreSQL等数据库等
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
       url: jdbc:sqlserver://192.168.1.130:1433;DatabaseName=test;encrypt=false
       username: sa
@@ -74,14 +75,20 @@ spring:
 ```yaml
 os:
   file:
-    client:
-      type: MINIO  # 支持 LOCAL, MINIO, ALIYUN 等
-  local:
-    base-path: ./uploads  # 本地存储路径
-  minio:
-    endpoint: http://10.37.131.224:9000
-    access-key: admin
-    secret-key: password
+    type: MINIO # 支持 LOCAL, MINIO, ALIYUN 等
+    local:
+      base-path: ./uploads # 本地存储路径
+    
+    minio:
+      endpoint: http://10.37.131.224:9000
+      access-key: admin
+      secret-key: password
+    
+    aliyun:
+      oss:
+        endpoint: your-endpoint
+        access-key-id: your-access-key-id
+        access-key-secret: your-access-key-secret
 ```
 
 
@@ -97,12 +104,13 @@ os:
 ```yaml
 os:
   cache:
-    type: REDIS  # 支持 REDIS 或 LOCAL
-  redis:
-    ip: localhost
-    port: 16379
-    password: 'SbtyMveYNfLzTks7H0apCmyStPzWJqjy'
-    database: 0
+    type: REDIS
+    redis:
+      # ip: 10.10.10.181
+      ip: localhost
+      port: 6379
+      password: '123456'
+      database: 0
 ```
 
 
