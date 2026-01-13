@@ -104,7 +104,7 @@ os:
 ```yaml
 os:
   cache:
-    type: REDIS
+    type: REDIS  # 支持 LOCAL, REDIS
     redis:
       # ip: 10.10.10.181
       ip: localhost
