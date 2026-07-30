@@ -1,0 +1,172 @@
+/**
+ * 个人中心专属样式：用户卡片 / 头像蒙层 / 元信息列表 / 表单
+ */
+
+.profile-page {
+  animation: pageFadeIn 0.3s ease both;
+}
+
+/* ============ 左侧用户卡片 ============ */
+.profile-user-card {
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+  .profile-user-card {
+    position: sticky;
+    top: 16px;
+  }
+}
+
+.profile-user-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 22px;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-primary) 16%, transparent),
+    transparent 72%
+  );
+}
+
+/* 头像 + hover 蒙层 */
+.profile-avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-avatar-wrap .ant-avatar {
+  border: 3px solid var(--card-bg);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s ease;
+}
+
+.profile-avatar-wrap:hover .ant-avatar {
+  transform: scale(1.04);
+}
+
+.profile-avatar-mask {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.52);
+  color: #fff;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.profile-avatar-wrap:hover .profile-avatar-mask {
+  opacity: 1;
+}
+
+.profile-avatar-mask .anticon {
+  font-size: 16px;
+}
+
+.mask-percent {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.profile-name {
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profile-username {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.profile-role {
+  margin-top: 10px;
+}
+
+/* 元信息列表 */
+.profile-meta {
+  list-style: none;
+  margin: 0;
+  padding: 6px 24px 16px;
+}
+
+.profile-meta li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  font-size: 13px;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.profile-meta li:last-child {
+  border-bottom: none;
+}
+
+.profile-meta .anticon {
+  color: var(--color-primary);
+}
+
+.profile-meta span {
+  width: 56px;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.profile-meta b {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ============ 右侧标签页卡片 ============ */
+.profile-tabs-card {
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--shadow-card);
+}
+
+.profile-form {
+  max-width: 480px;
+  padding: 10px 4px 2px;
+}
+
+/* 密码强度条 */
+.pwd-strength-item {
+  margin-top: -10px;
+}
+
+.pwd-strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pwd-strength .ant-progress {
+  flex: 1;
+  max-width: 220px;
+}
+
+.pwd-strength-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}

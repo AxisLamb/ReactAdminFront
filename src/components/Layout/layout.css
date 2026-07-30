@@ -1,0 +1,320 @@
+/**
+ * 主布局样式：Sider / Header / Tabs / 内容区 / KeepAlive / 加载态 / 登录占位
+ */
+
+/* ============ 整体布局 ============ */
+.app-layout {
+  min-height: 100vh;
+}
+
+.app-main {
+  min-width: 0;
+  transition: var(--transition-base);
+}
+
+/* ============ 侧边栏 ============ */
+.app-sider {
+  background: var(--sider-bg) !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 10;
+}
+
+.app-sider .ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+}
+
+.sider-logo {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  background: var(--sider-logo-bg);
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sider-logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  transition: var(--transition-base);
+}
+
+.sider-logo:hover .sider-logo-mark {
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.sider-logo-text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--sider-text-active);
+  animation: logoFadeIn 0.3s ease both;
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sider-menu {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-inline-end: none !important;
+  background: transparent !important;
+}
+
+/* 菜单选中态左侧高亮指示条 */
+.sider-menu .ant-menu-item-selected {
+  position: relative;
+}
+
+.sider-menu .ant-menu-item-selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: 0 3px 3px 0;
+  background: var(--color-primary-hover);
+}
+
+.sider-menu .ant-menu-item,
+.sider-menu .ant-menu-submenu-title {
+  transition: var(--transition-base);
+}
+
+.sider-menu .ant-menu-item:hover,
+.sider-menu .ant-menu-submenu-title:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ============ 顶部导航栏 ============ */
+.app-header {
+  height: var(--header-height) !important;
+  line-height: var(--header-height) !important;
+  padding: 0 16px !important;
+  background: var(--header-bg) !important;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.06);
+  position: relative;
+  z-index: 9;
+  transition: background-color 0.3s ease;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-action {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-regular);
+  border-radius: var(--border-radius);
+  transition: var(--transition-base);
+}
+
+.header-action:hover {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.header-breadcrumb {
+  margin-left: 4px;
+}
+
+.header-breadcrumb .ant-breadcrumb-link {
+  color: var(--text-secondary);
+  transition: var(--transition-base);
+}
+
+.header-breadcrumb li:last-child .ant-breadcrumb-link {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 主题色圆点 */
+.theme-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+/* 用户触发区 */
+.user-trigger {
+  padding: 4px 10px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.user-trigger:hover {
+  background: var(--color-primary-bg);
+}
+
+.user-avatar {
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 14px;
+  color: var(--text-primary);
+  max-width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.user-caret {
+  font-size: 10px;
+  color: var(--text-secondary);
+  transition: var(--transition-base);
+}
+
+/* ============ 多标签栏 ============ */
+.app-tabs {
+  background: var(--header-bg);
+  padding: 6px 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease;
+}
+
+.app-tabs .ant-tabs-nav {
+  margin: 0 !important;
+}
+
+.app-tabs .ant-tabs-tab {
+  border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+  transition: var(--transition-base);
+  user-select: none;
+}
+
+.app-tabs .ant-tabs-tab:hover {
+  color: var(--color-primary);
+}
+
+.app-tabs .ant-tabs-tab-active {
+  border-top: 2px solid var(--color-primary) !important;
+}
+
+.tab-label {
+  display: inline-block;
+  font-size: 13px;
+}
+
+.tab-refresh {
+  margin: 0 4px 4px;
+  color: var(--text-regular);
+  transition: var(--transition-base);
+}
+
+.tab-refresh:hover {
+  color: var(--color-primary);
+}
+
+.tab-refresh:hover .anticon {
+  animation: spinOnce 0.5s ease;
+}
+
+@keyframes spinOnce {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============ 内容区 ============ */
+.app-content {
+  margin: 12px;
+  padding: 16px;
+  background: var(--content-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-card);
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  transition: background-color 0.3s ease;
+}
+
+/* KeepAlive 容器与页面 */
+.keepalive-container {
+  height: 100%;
+}
+
+.keepalive-page {
+  height: 100%;
+}
+
+.keepalive-page-active {
+  animation: pageFadeIn 0.28s ease both;
+}
+
+/* ============ 加载态 ============ */
+.page-loading,
+.route-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  height: 100%;
+}
+
+.route-loading {
+  min-height: 100vh;
+  background: var(--layout-bg);
+}
+
+.page-loading-holder {
+  min-height: 200px;
+}
+
+/* ============ 响应式 ============ */
+@media (max-width: 768px) {
+  .user-name,
+  .header-breadcrumb {
+    display: none;
+  }
+
+  .app-content {
+    margin: 8px;
+    padding: 12px;
+  }
+}

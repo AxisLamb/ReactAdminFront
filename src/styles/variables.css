@@ -1,0 +1,57 @@
+/**
+ * 全局 CSS 变量（light 主题为默认）
+ * 通过 document.documentElement.dataset.theme 切换主题，
+ * 各主题在 themes/*.css 中以 [data-theme='xxx'] 作用域覆盖变量。
+ */
+:root {
+  /* 品牌主色系 */
+  --color-primary: #1890ff;
+  --color-primary-hover: #40a9ff;
+  --color-primary-active: #096dd9;
+  --color-primary-bg: #e6f7ff;
+
+  /* 功能色 */
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-error: #ff4d4f;
+  --color-info: #1890ff;
+
+  /* 布局背景 */
+  --layout-bg: #f0f2f5;
+  --content-bg: #ffffff;
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+  --header-height: 56px;
+  --tabs-height: 40px;
+
+  /* 侧边栏（深色） */
+  --sider-bg: #001529;
+  --sider-logo-bg: #002140;
+  --sider-text: rgba(255, 255, 255, 0.65);
+  --sider-text-active: #ffffff;
+  --sider-width: 220px;
+  --sider-collapsed-width: 64px;
+
+  /* 文本色 */
+  --text-primary: #262626;
+  --text-regular: #595959;
+  --text-secondary: #8c8c8c;
+  --text-inverse: #ffffff;
+
+  /* 边框与阴影 */
+  --border-color: #f0f0f0;
+  --border-radius: 6px;
+  --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03),
+    0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+  /* 字体 */
+  --font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI',
+    'Microsoft YaHei', sans-serif;
+  --font-display: 'DIN Next', 'DIN Alternate', 'Helvetica Neue', Arial,
+    sans-serif;
+
+  /* 过渡 */
+  --transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}

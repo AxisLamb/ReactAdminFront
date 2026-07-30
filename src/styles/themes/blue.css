@@ -1,0 +1,14 @@
+/**
+ * 蓝色主题变量覆盖（极客蓝 #2F54EB）
+ */
+[data-theme='blue'] {
+  --color-primary: #2f54eb;
+  --color-primary-hover: #597ef7;
+  --color-primary-active: #1d39c4;
+  --color-primary-bg: #f0f5ff;
+
+  --sider-bg: #0a1a4a;
+  --sider-logo-bg: #0d2161;
+
+  --color-info: #2f54eb;
+}

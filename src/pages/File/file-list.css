@@ -1,0 +1,126 @@
+/**
+ * 文件管理页专属样式：上传面板 / 文件名单元格 / 类型标签 / 链接弹窗
+ */
+
+/* ============ 上传面板 ============ */
+.upload-setting-row {
+  margin-bottom: 4px;
+}
+
+.upload-setting-row .ant-form-item {
+  margin-bottom: 12px;
+}
+
+.upload-dragger {
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.upload-dragger .ant-upload-drag-icon > .anticon {
+  font-size: 46px;
+  color: var(--color-primary);
+  transition: transform 0.25s ease;
+}
+
+.upload-dragger:hover .ant-upload-drag-icon > .anticon,
+.upload-dragger.ant-upload-drag-hover .ant-upload-drag-icon > .anticon {
+  transform: translateY(-4px) scale(1.1);
+}
+
+.upload-dragger .ant-upload-text {
+  font-weight: 600;
+}
+
+/* ============ 文件名单元格 ============ */
+.file-name-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.file-ext-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  font-size: 17px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.list-table tr:hover .file-ext-icon {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.file-name-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.file-name-text {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.file-name-id {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ============ 类型标签 / 存储路径 ============ */
+.file-type-tag {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.file-path-tag {
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* ============ 访问链接弹窗 ============ */
+.link-modal-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link-modal-title .anticon {
+  color: var(--color-primary);
+}
+
+.link-modal-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.link-modal-id {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.link-modal-loading {
+  display: flex;
+  justify-content: center;
+  padding: 28px 0;
+}
+
+.link-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

@@ -1,0 +1,14 @@
+/**
+ * 绿色主题变量覆盖（极光绿 #389E0D）
+ */
+[data-theme='green'] {
+  --color-primary: #389e0d;
+  --color-primary-hover: #52c41a;
+  --color-primary-active: #237804;
+  --color-primary-bg: #f6ffed;
+
+  --sider-bg: #0a2e14;
+  --sider-logo-bg: #0d3a1a;
+
+  --color-info: #389e0d;
+}

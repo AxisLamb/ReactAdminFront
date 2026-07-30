@@ -1,0 +1,263 @@
+/**
+ * 列表页通用样式：搜索卡片 / 表格卡片 / 工具栏 / 操作链接 / 权限树容器
+ * 供用户、角色、菜单、字典、文件等列表范式页面共用
+ */
+
+.list-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: pageFadeIn 0.3s ease both;
+}
+
+/* ============ 搜索卡片 ============ */
+.search-card {
+  padding: 18px 20px 4px;
+  border-radius: var(--border-radius);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease;
+}
+
+.search-card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.search-card .ant-form-item {
+  margin-bottom: 14px;
+}
+
+/* ============ 表格卡片 ============ */
+.table-card {
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.table-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.table-card-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.table-card-title::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--color-primary-hover), var(--color-primary-active));
+  flex-shrink: 0;
+}
+
+.table-card-desc {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* ============ 表格细节 ============ */
+.list-table .ant-table-thead > tr > th {
+  font-weight: 600;
+}
+
+.list-table .ant-table-tbody > tr {
+  transition: background 0.2s ease;
+}
+
+/* 选中行高亮 */
+.list-table .ant-table-tbody > tr.ant-table-row-selected > td {
+  background: var(--color-primary-bg) !important;
+}
+
+/* 用户名单元格：首字母头像 + 文本 */
+.user-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-cell-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease;
+}
+
+.list-table tr:hover .user-cell-avatar {
+  transform: scale(1.1);
+}
+
+.user-cell-name {
+  font-weight: 500;
+}
+
+/* 状态标签：圆点 + 文本 */
+.status-tag {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* 操作列文字链接 */
+.action-link {
+  padding: 0 !important;
+  height: auto !important;
+  font-size: 13px;
+}
+
+.action-divider {
+  color: var(--border-color);
+}
+
+/* ============ 弹窗表单 ============ */
+.modal-form .ant-form-item-label > label {
+  font-weight: 500;
+}
+
+/* ============ 代码 / 标识样式（URL、组件名、权限标识、字典类型） ============ */
+.code-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-primary-active);
+  background: var(--color-primary-bg);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
+  border-radius: 4px;
+}
+
+.code-copy-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.code-copy-btn {
+  font-size: 12px;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.list-table tr:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.code-copy-btn:hover {
+  color: var(--color-primary) !important;
+}
+
+/* ============ 菜单树表格 ============ */
+.menu-name-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-name-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+
+.list-table tr:hover .menu-name-icon {
+  transform: scale(1.15);
+}
+
+.menu-name-text {
+  font-weight: 500;
+}
+
+/* ============ 抽屉（字典项管理） ============ */
+.drawer-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.drawer-title-tag {
+  margin: 0;
+  font-weight: 400;
+}
+
+.drawer-search {
+  margin-bottom: 16px;
+  padding: 12px 16px 0;
+  background: var(--layout-bg);
+  border-radius: var(--border-radius);
+}
+
+.drawer-search .ant-form-item {
+  margin-bottom: 12px;
+}
+
+/* ============ 权限树容器 ============ */
+.perm-tree-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.perm-tree-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.perm-tree-count b {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.perm-tree-box {
+  max-height: 300px;
+  overflow: auto;
+  padding: 8px 4px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--layout-bg);
+  transition: border-color 0.2s ease;
+}
+
+.perm-tree-box:hover {
+  border-color: var(--color-primary);
+}
+
+.perm-tree-empty {
+  padding: 24px 0;
+}

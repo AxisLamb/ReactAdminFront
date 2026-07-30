@@ -1,138 +1,60 @@
-// src/App.jsx
-import React, { useState, useEffect } from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import { ConfigProvider, message } from 'antd';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { setMessageApi } from './utils/messageUtil';
-import './i18n/i18n';
+import { useMemo } from 'react'
+import { ConfigProvider, App as AntApp } from 'antd'
+import zhCN from 'antd/locale/zh_CN'
+import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom'
+import Login from './pages/Login/index.jsx'
+import Layout from './components/Layout/index.jsx'
+import { AuthGuard, buildRoutes } from './routes.jsx'
+import { useTheme } from './hooks/useTheme'
+import { useUserStore } from './store/userStore'
 
-// 静态导入组件
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import MainLayout from './component/MainLayout';
-import UserList from './pages/system/UserList';
-import RoleList from './pages/system/RoleList';
-import MenuList from './pages/system/MenuList';
+/**
+ * 数据路由组装
+ * - /login：登录页
+ * - /：AuthGuard 守卫 → Layout 布局 → 动态子路由（含首页重定向与 404 兜底）
+ * 动态路由仅负责匹配（页面级权限隔离），页面渲染由 KeepAlive 完成
+ */
+function AppRoutes() {
+  const routes = useUserStore((s) => s.routes)
+  const routesLoaded = useUserStore((s) => s.routesLoaded)
 
-// Import your route fetching logic
-import { useDynamicRoutes } from './component/DynamicRouter';
+  const routeObjects = useMemo(() => {
+    const dynamic = routesLoaded ? buildRoutes(routes) : []
+    return [
+      { path: '/login', element: <Login /> },
+      {
+        path: '/',
+        element: <AuthGuard />,
+        children: [
+          {
+            element: <Layout />,
+            children: [
+              { index: true, element: <Navigate to="/dashboard" replace /> },
+              { path: '/dashboard', element: null },
+              ...dynamic,
+              { path: '*', element: null },
+            ],
+          },
+        ],
+      },
+    ]
+  }, [routes, routesLoaded])
 
-// 静态组件映射
-const componentMap = {
-  Login,
-  Dashboard,
-  MainLayout,
-  UserList,
-  RoleList,
-  MenuList
-};
+  return useRoutes(routeObjects)
+}
 
-// Separate component for the router logic that has access to Auth context
-const AppWithAuth = () => {
-  const [router, setRouter] = useState(null);
-  const { routes: dynamicRoutes, loading } = useDynamicRoutes();
-  const [messageApi, contextHolder] = message.useMessage();
-
-  React.useEffect(() => {
-    setMessageApi(messageApi);
-  }, [messageApi]);
-
-  // Build router when routes are loaded
-  useEffect(() => {
-    if (dynamicRoutes) {
-      const builtRoutes = [
-        ...buildRoutes(dynamicRoutes),
-        // Add catch-all route
-        {
-          path: '*',
-          element: <Navigate to="/dashboard" replace />
-        }
-      ];
-      
-      const newRouter = createBrowserRouter(builtRoutes);
-      setRouter(newRouter);
-    }
-  }, [dynamicRoutes]);
-
-  if (loading || !router) {
-    return <div>Loading...</div>;
-  }
+function App() {
+  const { antdThemeConfig } = useTheme()
 
   return (
-    <>
-      {contextHolder}
-      <RouterProvider router={router} />
-    </>
-  );
-};
-
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  if (!user) return <Navigate to="/login" replace />;
-  return children;
-};
-
-// Function to recursively convert route data to React Router format
-const buildRoutes = (routeData) => {
-  return routeData.map(route => {
-    if (route.element) {
-      // 使用静态映射
-      const Component = componentMap[route.element];
-      
-      if (!Component) {
-        console.error(`Component not found: ${route.element}`);
-        return {
-          path: route.path,
-          element: <div>Component not found: {route.element}</div>
-        };
-      }
-
-      const element = route.protected ? (
-        <ProtectedRoute>
-          <Component />
-        </ProtectedRoute>
-      ) : (
-        <Component />
-      );
-
-      const finalRoute = {
-        path: route.path,
-        element: element,
-        ...(route.exact && { exact: route.exact })
-      };
-
-      // Recursively build child routes if they exist
-      if (route.children && route.children.length > 0) {
-        finalRoute.children = buildRoutes(route.children);
-      }
-
-      return finalRoute;
-
-    } else if (route.children && route.children.length > 0) {
-      return {
-        path: route.path,
-        children: buildRoutes(route.children),
-        ...(route.exact && { exact: route.exact })
-      };
-    } else {
-      return {
-        path: route.path,
-        ...(route.exact && { exact: route.exact })
-      };
-    }
-    
-  });
-};
-
-const App = () => {
-  return (
-    <ConfigProvider>
-      <AuthProvider>
-        <AppWithAuth />
-      </AuthProvider>
+    <ConfigProvider locale={zhCN} theme={antdThemeConfig}>
+      <AntApp>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </AntApp>
     </ConfigProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
