@@ -152,6 +152,11 @@
   color: var(--color-primary);
 }
 
+.header-action.watermark-active {
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
 .header-breadcrumb {
   margin-left: 4px;
 }

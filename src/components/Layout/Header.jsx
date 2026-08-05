@@ -19,6 +19,7 @@ import {
   DownOutlined,
   BgColorsOutlined,
   CheckOutlined,
+  HighlightOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useAppStore } from '../../store/appStore'
@@ -53,6 +54,8 @@ function Header() {
   const navigate = useNavigate()
   const collapsed = useAppStore((s) => s.collapsed)
   const toggleCollapsed = useAppStore((s) => s.toggleCollapsed)
+  const watermarkEnabled = useAppStore((s) => s.watermarkEnabled)
+  const toggleWatermark = useAppStore((s) => s.toggleWatermark)
   const menus = useUserStore((s) => s.menus)
   const userInfo = useUserStore((s) => s.userInfo)
   const logout = useUserStore((s) => s.logout)
@@ -145,6 +148,13 @@ function Header() {
           icon={isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
           onClick={toggleFullscreen}
           title={isFullscreen ? '退出全屏' : '全屏'}
+        />
+        <Button
+          type="text"
+          className={`header-action${watermarkEnabled ? ' watermark-active' : ''}`}
+          icon={<HighlightOutlined />}
+          onClick={() => toggleWatermark()}
+          title={watermarkEnabled ? '关闭水印' : '开启水印'}
         />
         <Dropdown
           menu={{ items: themeMenuItems, onClick: onThemeClick }}

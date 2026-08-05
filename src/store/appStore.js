@@ -12,6 +12,8 @@ export const useAppStore = create(
       collapsed: false,
       // 当前主题：light / dark / blue / green
       theme: 'light',
+      // 水印是否开启
+      watermarkEnabled: true,
 
       /**
        * 切换侧边栏折叠状态
@@ -25,13 +27,21 @@ export const useAppStore = create(
        * @param {'light'|'dark'|'blue'|'green'} theme
        */
       setTheme: (theme) => set({ theme }),
+
+      /**
+       * 切换水印显示
+       * @param {boolean} [value] 不传则取反
+       */
+      toggleWatermark: (value) =>
+        set({ watermarkEnabled: value === undefined ? !get().watermarkEnabled : value }),
     }),
     {
       name: 'react_admin_app',
-      // 仅持久化折叠与主题字段
+      // 仅持久化折叠、主题、水印字段
       partialize: (state) => ({
         collapsed: state.collapsed,
         theme: state.theme,
+        watermarkEnabled: state.watermarkEnabled,
       }),
     },
   ),

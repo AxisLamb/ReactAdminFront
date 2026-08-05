@@ -8,6 +8,7 @@ import KeepAlive from '../KeepAlive'
 import { useUserStore } from '../../store/userStore'
 import { useTabStore } from '../../store/tabStore'
 import { useDictStore } from '../../store/dictStore'
+import { useAppStore } from '../../store/appStore'
 import { traverseTree } from '../../utils/helpers'
 import './layout.css'
 
@@ -51,7 +52,10 @@ function Layout() {
     loadDict('sys_user_status')
   }, [loadDict])
 
+  const watermarkEnabled = useAppStore((s) => s.watermarkEnabled)
   const watermarkContent = userInfo?.realName || userInfo?.userName || ''
+
+  const content = <KeepAlive />
 
   return (
     <AntLayout className="app-layout">
@@ -60,9 +64,11 @@ function Layout() {
         <Header />
         <Tabs />
         <Content className="app-content">
-          <Watermark content={watermarkContent}>
-            <KeepAlive />
-          </Watermark>
+          {watermarkEnabled ? (
+            <Watermark content={watermarkContent}>{content}</Watermark>
+          ) : (
+            content
+          )}
         </Content>
       </AntLayout>
     </AntLayout>
