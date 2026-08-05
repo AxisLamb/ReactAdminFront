@@ -12,25 +12,24 @@ const service = axios.create({
   timeout: 15000,
 })
 
-// 防止 401 时重复跳转登录页
-let isRedirecting = false
+// 防止并行 401 重复通知
+let unauthorizedNotified = false
 
 /**
- * 清空本地登录态并跳转登录页
- * 直接操作 localStorage 以避免与 store 产生循环依赖
+ * 认证失效统一处理：清空本地登录态，并派发 auth:unauthorized 事件
+ * 由 App.jsx 中的 AuthEventListener 监听事件、清理 zustand 状态并跳转登录页
+ * 不直接 import userStore，避免 request → store → api → request 循环依赖
  */
 function redirectToLogin() {
-  if (isRedirecting) return
-  isRedirecting = true
   removeStorage(STORAGE_KEYS.TOKEN)
   removeStorage(STORAGE_KEYS.USER_INFO)
   removeStorage(STORAGE_KEYS.PERMISSIONS)
-  message.error('登录已过期，请重新登录')
-  // 记录当前路径，登录后可回跳（此处简化为首页）
+  if (unauthorizedNotified) return
+  unauthorizedNotified = true
+  window.dispatchEvent(new CustomEvent('auth:unauthorized'))
   setTimeout(() => {
-    window.location.href = '/login'
-    isRedirecting = false
-  }, 300)
+    unauthorizedNotified = false
+  }, 1000)
 }
 
 // 请求拦截器：自动注入 satoken

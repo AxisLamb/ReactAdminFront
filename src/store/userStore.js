@@ -10,6 +10,10 @@ import {
   clearStorage,
   STORAGE_KEYS,
 } from '../utils/storage'
+import { useTabStore } from './tabStore'
+
+// init 并发去重：进行中的初始化 Promise（StrictMode 双挂载 / 多组件共用）
+let initPromise = null
 
 /**
  * 用户状态管理
@@ -39,39 +43,69 @@ export const useUserStore = create((set, get) => ({
       // 后端 data 直接为 token 字符串；同时兼容 { token, userInfo } 对象格式
       const token = typeof data === 'string' ? data : data?.token || ''
       const userInfo = typeof data === 'string' ? null : data?.userInfo || null
-    setStorage(STORAGE_KEYS.TOKEN, token)
-    if (userInfo) setStorage(STORAGE_KEYS.USER_INFO, userInfo)
-    set({ token, userInfo })
-    // 登录成功后立即初始化菜单与权限
-    await get().init()
-    return userInfo
+      setStorage(STORAGE_KEYS.TOKEN, token)
+      if (userInfo) setStorage(STORAGE_KEYS.USER_INFO, userInfo)
+      set({ token, userInfo })
+      // 菜单/权限初始化统一交由 AuthGuard 的 RouteLoading 完成，避免重复拉取
+      return userInfo
   },
 
   /**
    * 初始化：并行拉取路由树、菜单树、用户详情
    * 用于登录成功后及刷新页面（有 Token 但路由未加载）场景
+   * 内置并发去重：进行中的 init 复用同一 Promise，失败后允许重试
    */
-  init: async () => {
-    const [routes, menus, userInfo] = await Promise.all([
-      getRoutes(),
-      getMenuList(),
-      getUserInfo(),
-    ])
-    // 后端返回扁平菜单列表（含 parentId），转为树形结构供侧边栏使用
-    const menuTree = Array.isArray(menus) && menus.length && !menus[0].children
-      ? listToTree(menus)
-      : menus || []
-    const permissions = collectPermissions(menuTree)
-    setStorage(STORAGE_KEYS.PERMISSIONS, permissions)
-    if (userInfo) setStorage(STORAGE_KEYS.USER_INFO, userInfo)
-    set({
-      routes: routes || [],
-      menus: menuTree,
-      userInfo: userInfo || get().userInfo,
-      permissions,
-      routesLoaded: true,
+  init: () => {
+    if (initPromise) return initPromise
+    const promise = (async () => {
+      const [routes, menus, userInfo] = await Promise.all([
+        getRoutes(),
+        getMenuList(),
+        getUserInfo(),
+      ])
+      // 后端返回扁平菜单列表（含 parentId），转为树形结构供侧边栏使用
+      const menuTree = Array.isArray(menus) && menus.length && !menus[0].children
+        ? listToTree(menus)
+        : menus || []
+      const permissions = collectPermissions(menuTree)
+      setStorage(STORAGE_KEYS.PERMISSIONS, permissions)
+      if (userInfo) setStorage(STORAGE_KEYS.USER_INFO, userInfo)
+      set({
+        routes: routes || [],
+        menus: menuTree,
+        userInfo: userInfo || get().userInfo,
+        permissions,
+        routesLoaded: true,
+      })
+      return { routes: routes || [], menus: menuTree }
+    })()
+    initPromise = promise
+    promise.finally(() => {
+      if (initPromise === promise) initPromise = null
     })
-    return { routes: routes || [], menus: menuTree }
+    return promise
+  },
+
+  /**
+   * 清空登录态（zustand + localStorage + 标签页缓存）
+   * 401 认证失效、路由初始化失败、主动退出时统一调用；
+   * 清空后 AuthGuard 检测到 token 为空会自动重定向到登录页
+   */
+  clearAuth: () => {
+    initPromise = null
+    // 清空业务存储（保留主题等偏好设置）
+    removeStorage(STORAGE_KEYS.TOKEN)
+    removeStorage(STORAGE_KEYS.USER_INFO)
+    removeStorage(STORAGE_KEYS.PERMISSIONS)
+    useTabStore.getState().removeAllTabs()
+    set({
+      token: '',
+      userInfo: null,
+      menus: [],
+      routes: [],
+      permissions: [],
+      routesLoaded: false,
+    })
   },
 
   /**
@@ -86,18 +120,7 @@ export const useUserStore = create((set, get) => ({
         console.error('[userStore] logout api error:', e)
       }
     }
-    // 清空业务存储（保留主题等偏好设置）
-    removeStorage(STORAGE_KEYS.TOKEN)
-    removeStorage(STORAGE_KEYS.USER_INFO)
-    removeStorage(STORAGE_KEYS.PERMISSIONS)
-    set({
-      token: '',
-      userInfo: null,
-      menus: [],
-      routes: [],
-      permissions: [],
-      routesLoaded: false,
-    })
+    get().clearAuth()
   },
 
   /**

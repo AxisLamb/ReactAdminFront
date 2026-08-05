@@ -85,3 +85,20 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* 路由初始化全屏加载态（AuthGuard 拉取菜单/权限期间） */
+.route-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100vh;
+  background-color: var(--layout-bg);
+}
+
+.route-loading-text {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}

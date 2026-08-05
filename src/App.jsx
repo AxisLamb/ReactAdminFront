@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { ConfigProvider, App as AntApp } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom'
@@ -43,6 +43,27 @@ function AppRoutes() {
   return useRoutes(routeObjects)
 }
 
+/**
+ * 认证失效监听器
+ * 请求层检测到 401 时派发 auth:unauthorized 事件（见 utils/request.js），
+ * 此处统一提示并清空登录态；clearAuth 使 token 置空后，
+ * AuthGuard 自动 <Navigate to="/login"> 完成 SPA 跳转，无需整页刷新
+ */
+function AuthEventListener() {
+  const { message: msg } = AntApp.useApp()
+
+  useEffect(() => {
+    const onUnauthorized = () => {
+      msg.warning({ content: '登录已过期，请重新登录', key: 'auth-unauthorized' })
+      useUserStore.getState().clearAuth()
+    }
+    window.addEventListener('auth:unauthorized', onUnauthorized)
+    return () => window.removeEventListener('auth:unauthorized', onUnauthorized)
+  }, [msg])
+
+  return null
+}
+
 function App() {
   const { antdThemeConfig } = useTheme()
 
@@ -50,6 +71,7 @@ function App() {
     <ConfigProvider locale={zhCN} theme={antdThemeConfig}>
       <AntApp>
         <BrowserRouter>
+          <AuthEventListener />
           <AppRoutes />
         </BrowserRouter>
       </AntApp>

@@ -93,34 +93,34 @@ export function buildPathComponentMap(routeTree) {
   return map
 }
 
-// 模块级 init 去重标记，避免 StrictMode 下重复拉取
-let initPromise = null
-
 /**
  * 全屏加载态：刷新页面（有 Token 但路由未加载）时重新拉取资源
+ * init 的并发去重在 userStore 内部完成；
+ * 加载失败（网络异常 / 无权限 / 服务端错误）时清空登录态，
+ * AuthGuard 检测到 token 为空后自动重定向到登录页
  */
 function RouteLoading() {
   const init = useUserStore((s) => s.init)
+  const clearAuth = useUserStore((s) => s.clearAuth)
 
   useEffect(() => {
-    if (!initPromise) {
-      initPromise = init().catch((e) => {
-        console.error('[routes] init error:', e)
-        initPromise = null
-      })
-    }
-  }, [init])
+    init().catch((e) => {
+      console.error('[routes] init error:', e)
+      clearAuth()
+    })
+  }, [init, clearAuth])
 
   return (
     <div className="route-loading">
-      <Spin size="large" tip="正在加载系统资源..." />
+      <Spin size="large" />
+      <p className="route-loading-text">正在加载系统资源...</p>
     </div>
   )
 }
 
 /**
  * 路由守卫
- * - 无 Token → 重定向登录页（记录来源路径）
+ * - 无 Token → 重定向登录页（记录来源位置，登录后回跳）
  * - 有 Token 但路由未加载 → 全屏加载并重新拉取
  * - 正常 → 渲染子路由（Outlet）
  */
@@ -130,7 +130,7 @@ export function AuthGuard() {
   const location = useLocation()
 
   if (!token) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />
+    return <Navigate to="/login" replace state={{ from: location }} />
   }
   if (!routesLoaded) {
     return <RouteLoading />
