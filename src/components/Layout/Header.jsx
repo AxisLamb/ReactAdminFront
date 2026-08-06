@@ -120,8 +120,9 @@ function Header() {
         cancelText: '取消',
         okButtonProps: { danger: true },
         onOk: () =>
-          logout().then(() => {
-            message.success('已退出登录')
+          logout().then((apiOk) => {
+            // 接口失败（如 token 已过期）时 401 事件已提示"登录已过期"，不再重复提示
+            if (apiOk) message.success('已退出登录')
             navigate('/login', { replace: true })
           }),
       })

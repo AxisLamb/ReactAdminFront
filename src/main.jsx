@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+// antd v5 在 React 19 下的官方兼容补丁：
+// 修复 Modal.confirm / message / notification 等静态方法静默失效的问题
+import '@ant-design/v5-patch-for-react-19'
 import App from './App.jsx'
 import './styles/global.css'
 

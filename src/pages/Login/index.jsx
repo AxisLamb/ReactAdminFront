@@ -55,8 +55,9 @@ export default function Login() {
         removeStorage(REMEMBER_KEY)
       }
       message.success('登录成功，欢迎回来')
-      const from = location.state?.from?.pathname || '/'
-      navigate(from, { replace: true })
+      // 登录成功后直接进入首页；来源为根路径时同样归一化到首页
+      const from = location.state?.from?.pathname
+      navigate(!from || from === '/' ? '/dashboard' : from, { replace: true })
     } catch (e) {
       setErrorMsg(e?.message || '登录失败，请检查用户名和密码')
     } finally {

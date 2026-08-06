@@ -111,16 +111,22 @@ export const useUserStore = create((set, get) => ({
   /**
    * 退出登录
    * @param {boolean} callApi 是否调用后端登出接口（401 场景下传 false）
+   * @returns {Promise<boolean>} 后端登出接口是否调用成功。
+   *   返回 false 时（如 token 已过期，后端返回 401），401 事件机制已提示
+   *   "登录已过期"，调用方不应再重复提示"退出登录成功"
    */
   logout: async (callApi = true) => {
+    let apiOk = true
     if (callApi) {
       try {
         await logoutApi()
       } catch (e) {
+        apiOk = false
         console.error('[userStore] logout api error:', e)
       }
     }
     get().clearAuth()
+    return apiOk
   },
 
   /**

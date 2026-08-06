@@ -26,10 +26,12 @@ function AppRoutes() {
         path: '/',
         element: <AuthGuard />,
         children: [
+          // 根路径重定向到首页：必须放在 Layout 之外（Layout 不渲染 Outlet，
+          // 放在其子路由中会导致 Navigate 永远不执行）
+          { index: true, element: <Navigate to="/dashboard" replace /> },
           {
             element: <Layout />,
             children: [
-              { index: true, element: <Navigate to="/dashboard" replace /> },
               { path: '/dashboard', element: null },
               ...dynamic,
               { path: '*', element: null },

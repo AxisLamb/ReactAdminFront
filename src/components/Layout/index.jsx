@@ -39,6 +39,8 @@ function Layout() {
   // 路由变化时同步标签页
   useEffect(() => {
     const path = location.pathname
+    // 根路径由路由层重定向到 /dashboard，不生成标签
+    if (path === '/') return
     const menu = pathMenuMap[path]
     addTab({
       key: path,
