@@ -4,7 +4,7 @@ import { ApartmentOutlined, NodeExpandOutlined, ShrinkOutlined } from '@ant-desi
 import PropTypes from 'prop-types'
 import { addRole, updateRole } from '../../../api/role'
 import { getMenuListAll } from '../../../api/menu'
-import { collectTreeKeys, traverseTree } from '../../../utils/helpers'
+import { collectTreeKeys, listToTree, traverseTree } from '../../../utils/helpers'
 
 /**
  * 从菜单树中筛出叶子节点 id（用于编辑回显）
@@ -59,7 +59,9 @@ const RoleModal = ({ open, record, onCancel, onSuccess }) => {
     setTreeLoading(true)
     getMenuListAll()
       .then((tree) => {
-        const data = Array.isArray(tree) ? tree : []
+        const list = Array.isArray(tree) ? tree : []
+        // 后端返回扁平列表（含 parentId），转为树形结构供 Tree 勾选展示
+        const data = list.length && !list[0].children ? listToTree(list) : list
         setMenuTree(data)
         setExpandedKeys(collectTreeKeys(data, 'menuId'))
         if (record) setCheckedKeys(pickLeafKeys(data, record.menuIds))

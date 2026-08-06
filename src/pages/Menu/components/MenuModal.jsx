@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types'
 import IconSelect from '../../../components/IconSelect'
 import { addMenu, getMenuListAll, updateMenu } from '../../../api/menu'
+import { listToTree } from '../../../utils/helpers'
 import { componentRegistry } from '../../../routes'
 
 /** 组件名称下拉候选（来自路由注册表） */
@@ -63,7 +64,11 @@ const MenuModal = ({ open, record, parent, onCancel, onSuccess }) => {
     }
 
     getMenuListAll()
-      .then((data) => setMenuTree(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : []
+        // 后端返回扁平列表（含 parentId），转为树形结构供 TreeSelect 展示
+        setMenuTree(list.length && !list[0].children ? listToTree(list) : list)
+      })
       .catch((e) => console.error('[MenuModal] load menu tree error:', e))
   }, [open, record, parent, form])
 

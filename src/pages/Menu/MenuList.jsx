@@ -9,7 +9,7 @@ import {
 import Permission from '../../components/Permission'
 import { MENU_ICONS } from '../../components/IconSelect/iconMap'
 import { deleteMenu, getMenuListAll } from '../../api/menu'
-import { collectTreeKeys } from '../../utils/helpers'
+import { collectTreeKeys, listToTree } from '../../utils/helpers'
 import MenuModal from './components/MenuModal'
 import '../../styles/list-page.css'
 
@@ -40,9 +40,11 @@ const MenuList = () => {
     getMenuListAll()
       .then((data) => {
         const list = Array.isArray(data) ? data : []
-        setTree(list)
+        // 后端返回扁平列表（含 parentId），转为树形结构供 Table 展示
+        const treeData = list.length && !list[0].children ? listToTree(list) : list
+        setTree(treeData)
         // 默认展开全部，便于总览层级结构
-        setExpandedKeys(collectTreeKeys(list, 'menuId'))
+        setExpandedKeys(collectTreeKeys(treeData, 'menuId'))
       })
       .catch((e) => console.error('[MenuList] fetch error:', e))
       .finally(() => setLoading(false))

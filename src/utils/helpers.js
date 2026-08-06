@@ -24,6 +24,8 @@ export function traverseTree(tree, callback, childrenKey = 'children') {
 
 /**
  * 将扁平列表（含 parentId）转换为树形结构
+ * 仅拥有子节点的节点才会携带 children 字段（叶子节点不带空数组，
+ * 避免 Table 树形展示时叶子行出现无意义的展开箭头）
  * @param {Array} list 扁平数组，每项含 id 和 parentId 字段
  * @param {string} idKey 主键字段名，默认 'menuId'
  * @param {string} parentKey 父级字段名，默认 'parentId'
@@ -35,7 +37,7 @@ export function listToTree(list, idKey = 'menuId', parentKey = 'parentId', child
   const map = {}
   const roots = []
   list.forEach((item) => {
-    map[item[idKey]] = { ...item, [childrenKey]: [] }
+    map[item[idKey]] = { ...item }
   })
   list.forEach((item) => {
     const node = map[item[idKey]]
@@ -43,7 +45,9 @@ export function listToTree(list, idKey = 'menuId', parentKey = 'parentId', child
     if (pid === 0 || pid === null || pid === undefined || !map[pid]) {
       roots.push(node)
     } else {
-      map[pid][childrenKey].push(node)
+      const parent = map[pid]
+      if (!parent[childrenKey]) parent[childrenKey] = []
+      parent[childrenKey].push(node)
     }
   })
   return roots
