@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { App, Avatar, Card, Col, Row, Tabs, Tag, Upload } from 'antd'
 import {
   CameraOutlined,
@@ -7,15 +7,20 @@ import {
   LockOutlined,
   MailOutlined,
   PhoneOutlined,
+  SafetyCertificateOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { uploadFile } from '../../api/file'
+import { downloadFileBlob, uploadFile } from '../../api/file'
 import { useUserStore } from '../../store/userStore'
 import { getStorage, setStorage, STORAGE_KEYS } from '../../utils/storage'
-import { formatDateTime } from '../../utils/helpers'
+import { formatDateTime, AVATAR_UPDATED_EVENT } from '../../utils/helpers'
 import InfoForm from './components/InfoForm'
 import PasswordForm from './components/PasswordForm'
 import './profile.css'
+
+/** 头像存储值是否为 fileId（排除旧版误存的 dataURL / 外链） */
+const isFileId = (v) =>
+  typeof v === 'string' && v.length > 0 && !v.startsWith('data:') && !v.startsWith('http')
 
 /**
  * 个人中心
@@ -25,30 +30,67 @@ import './profile.css'
 const Profile = () => {
   const { message } = App.useApp()
   const userInfo = useUserStore((s) => s.userInfo)
-  const setUserInfo = useUserStore((s) => s.setUserInfo)
   const [uploading, setUploading] = useState(false)
   const [percent, setPercent] = useState(0)
+  const [avatarUrl, setAvatarUrl] = useState('')
+  const objectUrlRef = useRef('')
 
-  const avatarUrl = getStorage(STORAGE_KEYS.AVATAR) || userInfo?.avatar
-  const displayName = userInfo?.realName || userInfo?.username || '-'
+  // 头像以 fileId 持久化；/files 静态路径需鉴权（实测 401），
+  // 回显时走 /images/download 拉取文件流并转为 ObjectURL；
+  // 旧版存储的 dataURL / 外链直接回显
+  useEffect(() => {
+    const stored = getStorage(STORAGE_KEYS.AVATAR)
+    if (stored && (stored.startsWith('data:') || /^https?:\/\//.test(stored))) {
+      setAvatarUrl(stored)
+      return undefined
+    }
+    if (!isFileId(stored)) return undefined
+    let active = true
+    let url = ''
+    downloadFileBlob(stored)
+      .then((blob) => {
+        if (!active) return
+        url = URL.createObjectURL(blob)
+        objectUrlRef.current = url
+        setAvatarUrl(url)
+      })
+      .catch((e) => console.error('[Profile] load avatar error:', e))
+    return () => {
+      active = false
+      if (url) URL.revokeObjectURL(url)
+    }
+  }, [])
 
-  /** 头像上传：成功后写入本地存储并同步全局用户信息 */
+  const displayName = userInfo?.realName || userInfo?.userName || '-'
+
+  /** 头像上传：成功后持久化 fileId，并立即下载回显新头像 */
   const handleAvatarUpload = ({ file, onProgress, onSuccess, onError }) => {
     setUploading(true)
     setPercent(0)
-    uploadFile(file, {
-      serviceModule: 'user',
-      businessType: 'avatar',
-      businessId: String(userInfo?.userId || ''),
-      onProgress: (p) => {
+    uploadFile(
+      file,
+      {
+        serviceModule: 'user',
+        businessType: 'avatar',
+        businessId: String(userInfo?.userId || ''),
+      },
+      (p) => {
         setPercent(p)
         onProgress({ percent: p })
       },
-    })
-      .then((url) => {
-        onSuccess(url, file)
-        setStorage(STORAGE_KEYS.AVATAR, url)
-        if (userInfo) setUserInfo({ ...userInfo, avatar: url })
+    )
+      .then(async (result) => {
+        const fileId = result?.fileId
+        if (!fileId) throw new Error('上传结果缺少 fileId')
+        setStorage(STORAGE_KEYS.AVATAR, fileId)
+        const blob = await downloadFileBlob(fileId)
+        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current)
+        const url = URL.createObjectURL(blob)
+        objectUrlRef.current = url
+        setAvatarUrl(url)
+        // 通知顶栏 Header 实时刷新头像回显
+        window.dispatchEvent(new Event(AVATAR_UPDATED_EVENT))
+        onSuccess(result, file)
         message.success('头像已更新')
       })
       .catch((e) => {
@@ -65,6 +107,11 @@ const Profile = () => {
     { icon: <MailOutlined />, label: '邮箱', value: userInfo?.email || '未填写' },
     { icon: <PhoneOutlined />, label: '手机号', value: userInfo?.mobile || '未填写' },
     { icon: <IdcardOutlined />, label: '用户ID', value: userInfo?.userId ?? '-' },
+    {
+      icon: <SafetyCertificateOutlined />,
+      label: '账号状态',
+      value: userInfo?.status === 1 ? '正常' : '停用',
+    },
     { icon: <ClockCircleOutlined />, label: '注册时间', value: formatDateTime(userInfo?.createTime) },
   ]
 
@@ -96,11 +143,14 @@ const Profile = () => {
               </div>
             </Upload>
             <div className="profile-name">{displayName}</div>
-            <div className="profile-username">@{userInfo?.username}</div>
+            <div className="profile-username">@{userInfo?.userName || '-'}</div>
             {userInfo?.role?.roleName && (
               <Tag color="blue" className="profile-role">
                 {userInfo.role.roleName}
               </Tag>
+            )}
+            {userInfo?.role?.roleDesc && (
+              <div className="profile-role-desc">{userInfo.role.roleDesc}</div>
             )}
           </div>
 

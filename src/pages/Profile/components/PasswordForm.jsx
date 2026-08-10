@@ -22,9 +22,9 @@ const getStrength = (pwd = '') => {
 
 /**
  * 修改密码表单
- * 说明：后端暂未提供独立的修改密码接口，此处复用 /sys/user/update，
- * 将新密码作为 password 字段提交，后端是否生效以其实现为准；
- * 当前密码仅作前端确认留存，不随请求发送。
+ * 说明：复用 /sys/user/update 提交新密码（后端已支持，实测生效）。
+ * 注意：载荷必须携带 roleId，否则后端更新时会将用户角色置空；
+ * 当前密码仅作前端二次确认留存，不随请求发送。
  */
 const PasswordForm = () => {
   const { message } = App.useApp()
@@ -39,7 +39,8 @@ const PasswordForm = () => {
     setSaving(true)
     updateUser({
       userId: userInfo.userId,
-      username: userInfo.username,
+      // 实测 update 未携带 roleId 时后端会将角色置空，需一并提交
+      roleId: userInfo.roleId ?? userInfo.role?.roleId,
       password: values.password,
     })
       .then(() => {

@@ -33,6 +33,8 @@ function AppRoutes() {
             element: <Layout />,
             children: [
               { path: '/dashboard', element: null },
+              // 个人中心为登录用户通用页面，不依赖后端菜单路由，静态注册
+              { path: '/profile', element: null },
               ...dynamic,
               { path: '*', element: null },
             ],

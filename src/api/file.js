@@ -46,6 +46,19 @@ export function getFileUrl(fileId) {
 }
 
 /**
+ * 下载文件流（返回 Blob，不触发浏览器下载）
+ * /files 静态路径需鉴权，浏览器 <img> 无法直接访问，
+ * 头像等需携带 satoken 拉取文件流的场景使用本接口
+ * @param {string} fileId
+ * @returns {Promise<Blob>}
+ */
+export function downloadFileBlob(fileId) {
+  return request
+    .get(`/images/download/${fileId}`, { responseType: 'blob' })
+    .then((res) => res.data)
+}
+
+/**
  * 删除文件（DELETE 路径参数）
  * @param {string} fileId
  */

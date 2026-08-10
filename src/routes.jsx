@@ -70,13 +70,14 @@ export function buildRoutes(routeTree) {
 
 /**
  * 构建 path -> 组件名 映射（供 KeepAlive 渲染使用）
- * 首页 /dashboard 固定映射到 Dashboard 组件
+ * 首页 /dashboard、个人中心 /profile 固定映射，不依赖后端菜单路由树
  * 后端路由树中子节点使用相对路径（如 "user"），需拼接父路径得到绝对路径（如 "/sys/user"）
  * @param {Array} routeTree 后端路由树
  * @returns {Object<string, string>}
  */
 export function buildPathComponentMap(routeTree) {
-  const map = { '/dashboard': 'Dashboard' }
+  // /dashboard、/profile 为静态注册页面，不依赖后端菜单路由树
+  const map = { '/dashboard': 'Dashboard', '/profile': 'Profile' }
   const traverse = (nodes, parentPath) => {
     if (!Array.isArray(nodes)) return
     nodes.forEach((node) => {

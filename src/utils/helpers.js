@@ -149,6 +149,12 @@ export const formatBytes = formatFileSize
 export const formatDateTime = formatDate
 
 /**
+ * 头像更新事件名
+ * 个人中心上传头像成功后派发，顶栏 Header 监听后实时刷新头像回显
+ */
+export const AVATAR_UPDATED_EVENT = 'app:avatar-updated'
+
+/**
  * 防抖函数
  * @param {Function} fn 目标函数
  * @param {number} delay 延迟毫秒数
