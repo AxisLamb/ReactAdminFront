@@ -70,7 +70,7 @@ const Profile = () => {
     uploadFile(
       file,
       {
-        serviceModule: 'user',
+        // serviceModule: 'user',
         businessType: 'avatar',
         businessId: String(userInfo?.userId || ''),
       },
