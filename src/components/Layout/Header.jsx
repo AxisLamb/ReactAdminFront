@@ -27,8 +27,8 @@ import { useUserStore } from '../../store/userStore'
 import { useTabStore } from '../../store/tabStore'
 import { useTheme, THEME_LIST } from '../../hooks/useTheme'
 import { getStorage, STORAGE_KEYS } from '../../utils/storage'
-import { AVATAR_UPDATED_EVENT } from '../../utils/helpers'
-import { downloadFileBlob } from '../../api/file'
+import { AVATAR_UPDATED_EVENT, buildAuthUrl } from '../../utils/helpers'
+import { getFileUrl } from '../../api/file'
 
 function normalize(url) {
   if (!url) return ''
@@ -105,38 +105,31 @@ function Header() {
   }
 
   // ---- 用户下拉 ----
-  // 头像存储值为 /images/upload 返回的 fileId，需下载 blob 换取临时链接展示；
+  // 头像通过 /images/url 获取访问链接，拼接 satoken 后直接回显；
   // 旧版 dataURL/外链直接沿用；监听 AVATAR_UPDATED_EVENT，个人中心上传成功后实时刷新
   const [avatarUrl, setAvatarUrl] = useState('')
   useEffect(() => {
-    let objectUrl = ''
     let cancelled = false
-    const loadAvatar = async () => {
+    const loadAvatar = async (bust = false) => {
       const stored = getStorage(STORAGE_KEYS.AVATAR, '')
-      if (!stored || stored.startsWith('data:') || /^https?:\/\//.test(stored)) {
-        if (objectUrl) {
-          URL.revokeObjectURL(objectUrl)
-          objectUrl = ''
-        }
-        if (!cancelled) setAvatarUrl(stored || '')
+      if (stored.startsWith('data:') || /^https?:\/\//.test(stored)) {
+        if (!cancelled) setAvatarUrl(stored)
         return
       }
       try {
-        const blob = await downloadFileBlob(stored)
-        if (cancelled) return
-        if (objectUrl) URL.revokeObjectURL(objectUrl)
-        objectUrl = URL.createObjectURL(blob)
-        setAvatarUrl(objectUrl)
+        const url = await getFileUrl('avatar')
+        if (!cancelled) setAvatarUrl(buildAuthUrl(url, bust))
       } catch {
         if (!cancelled) setAvatarUrl('')
       }
     }
     loadAvatar()
-    window.addEventListener(AVATAR_UPDATED_EVENT, loadAvatar)
+    // 头像更新后带时间戳强制刷新，避免浏览器缓存旧图
+    const onAvatarUpdated = () => loadAvatar(true)
+    window.addEventListener(AVATAR_UPDATED_EVENT, onAvatarUpdated)
     return () => {
       cancelled = true
-      window.removeEventListener(AVATAR_UPDATED_EVENT, loadAvatar)
-      if (objectUrl) URL.revokeObjectURL(objectUrl)
+      window.removeEventListener(AVATAR_UPDATED_EVENT, onAvatarUpdated)
     }
   }, [])
 

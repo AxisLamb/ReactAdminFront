@@ -38,11 +38,11 @@ export function downloadFile(fileId, filename = 'download') {
 
 /**
  * 获取文件访问链接
- * @param {string} fileId
- * @returns {Promise<string>} URL 字符串
+ * @param {string} businessType 业务类型（如 avatar）
+ * @returns {Promise<string>} URL 字符串（需拼接 ?satoken=xxx 后方可访问）
  */
-export function getFileUrl(fileId) {
-  return request.get(`/images/url/${fileId}`)
+export function getFileUrl(businessType) {
+  return request.get('/images/url', { params: { businessType } })
 }
 
 /**

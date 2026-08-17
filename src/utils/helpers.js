@@ -3,6 +3,8 @@
  * 包含树结构遍历、权限收集、字节/日期格式化等
  */
 
+import { getStorage, STORAGE_KEYS } from './storage'
+
 /**
  * 递归遍历树形结构，对每个节点执行回调
  * @param {Array} tree 树形数组
@@ -153,6 +155,25 @@ export const formatDateTime = formatDate
  * 个人中心上传头像成功后派发，顶栏 Header 监听后实时刷新头像回显
  */
 export const AVATAR_UPDATED_EVENT = 'app:avatar-updated'
+
+/** URL 追加查询参数（自动处理 ? / & 分隔） */
+export const appendParam = (url, key, value) =>
+  `${url}${url.includes('?') ? '&' : '?'}${key}=${encodeURIComponent(value)}`
+
+/**
+ * 为文件 URL 拼接 satoken 鉴权参数
+ * @param {string} url 文件访问链接
+ * @param {boolean} bust 是否追加时间戳防止缓存（更换头像后需强制刷新）
+ * @returns {string} 带鉴权参数的 URL
+ */
+export function buildAuthUrl(url, bust = false) {
+  if (!url) return ''
+  let result = url
+  const token = getStorage(STORAGE_KEYS.TOKEN)
+  if (token) result = appendParam(result, 'satoken', token)
+  if (bust) result = appendParam(result, '_t', Date.now())
+  return result
+}
 
 /**
  * 防抖函数

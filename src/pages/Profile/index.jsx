@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { App, Avatar, Card, Col, Row, Tabs, Tag, Upload } from 'antd'
 import {
   CameraOutlined,
@@ -10,17 +10,13 @@ import {
   SafetyCertificateOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { downloadFileBlob, uploadFile } from '../../api/file'
+import { getFileUrl, uploadFile } from '../../api/file'
 import { useUserStore } from '../../store/userStore'
 import { getStorage, setStorage, STORAGE_KEYS } from '../../utils/storage'
-import { formatDateTime, AVATAR_UPDATED_EVENT } from '../../utils/helpers'
+import { formatDateTime, AVATAR_UPDATED_EVENT, buildAuthUrl } from '../../utils/helpers'
 import InfoForm from './components/InfoForm'
 import PasswordForm from './components/PasswordForm'
 import './profile.css'
-
-/** 头像存储值是否为 fileId（排除旧版误存的 dataURL / 外链） */
-const isFileId = (v) =>
-  typeof v === 'string' && v.length > 0 && !v.startsWith('data:') && !v.startsWith('http')
 
 /**
  * 个人中心
@@ -33,10 +29,8 @@ const Profile = () => {
   const [uploading, setUploading] = useState(false)
   const [percent, setPercent] = useState(0)
   const [avatarUrl, setAvatarUrl] = useState('')
-  const objectUrlRef = useRef('')
 
-  // 头像以 fileId 持久化；/files 静态路径需鉴权（实测 401），
-  // 回显时走 /images/download 拉取文件流并转为 ObjectURL；
+  // 通过 /images/url 获取头像访问链接，拼接 satoken 后直接回显；
   // 旧版存储的 dataURL / 外链直接回显
   useEffect(() => {
     const stored = getStorage(STORAGE_KEYS.AVATAR)
@@ -44,26 +38,20 @@ const Profile = () => {
       setAvatarUrl(stored)
       return undefined
     }
-    if (!isFileId(stored)) return undefined
     let active = true
-    let url = ''
-    downloadFileBlob(stored)
-      .then((blob) => {
-        if (!active) return
-        url = URL.createObjectURL(blob)
-        objectUrlRef.current = url
-        setAvatarUrl(url)
+    getFileUrl('avatar')
+      .then((url) => {
+        if (active && url) setAvatarUrl(buildAuthUrl(url))
       })
       .catch((e) => console.error('[Profile] load avatar error:', e))
     return () => {
       active = false
-      if (url) URL.revokeObjectURL(url)
     }
   }, [])
 
   const displayName = userInfo?.realName || userInfo?.userName || '-'
 
-  /** 头像上传：成功后持久化 fileId，并立即下载回显新头像 */
+  /** 头像上传：成功后持久化 fileId，并重新获取带鉴权的 URL 回显新头像 */
   const handleAvatarUpload = ({ file, onProgress, onSuccess, onError }) => {
     setUploading(true)
     setPercent(0)
@@ -83,11 +71,9 @@ const Profile = () => {
         const fileId = result?.fileId
         if (!fileId) throw new Error('上传结果缺少 fileId')
         setStorage(STORAGE_KEYS.AVATAR, fileId)
-        const blob = await downloadFileBlob(fileId)
-        if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current)
-        const url = URL.createObjectURL(blob)
-        objectUrlRef.current = url
-        setAvatarUrl(url)
+        const url = await getFileUrl('avatar')
+        // 追加时间戳避免浏览器缓存旧头像
+        setAvatarUrl(buildAuthUrl(url, true))
         // 通知顶栏 Header 实时刷新头像回显
         window.dispatchEvent(new Event(AVATAR_UPDATED_EVENT))
         onSuccess(result, file)
