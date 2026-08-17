@@ -10,13 +10,12 @@ import {
   UserOutlined,
   RightOutlined,
 } from '@ant-design/icons'
-import { getUserPage } from '../../api/user'
-import { getRolePage } from '../../api/role'
-import { getDictPage } from '../../api/dict'
+import { getDashboardStatistics } from '../../api/dashboard'
 import { useUserStore } from '../../store/userStore'
 import { useAppStore } from '../../store/appStore'
+import { usePermission } from '../../hooks/usePermission'
 import { THEME_LIST } from '../../hooks/useTheme'
-import { getGreeting, formatDate, traverseTree, collectTreeKeys } from '../../utils/helpers'
+import { getGreeting, formatDate, traverseTree } from '../../utils/helpers'
 import brandImg from '../../assets/login-brand.png'
 import './dashboard.css'
 
@@ -64,7 +63,7 @@ const QUICK_META = [
   { name: '用户管理', icon: <TeamOutlined />, color: '#1890FF', fallback: '/user' },
   { name: '角色管理', icon: <SafetyCertificateOutlined />, color: '#52C41A', fallback: '/role' },
   { name: '菜单管理', icon: <MenuOutlined />, color: '#FAAD14', fallback: '/menu' },
-  { name: '字典管理', icon: <BookOutlined />, color: '#722ED1', fallback: '/dict' },
+  { name: '字典管理', icon: <BookOutlined />, color: '#722ED1', fallback: '/sys/dict' },
   { name: '文件管理', icon: <CloudUploadOutlined />, color: '#13C2C2', fallback: '/file' },
   { name: '个人中心', icon: <UserOutlined />, color: '#EB2F96', fallback: '/profile' },
 ]
@@ -80,41 +79,41 @@ export default function Dashboard() {
   const userInfo = useUserStore((s) => s.userInfo)
   const menus = useUserStore((s) => s.menus)
   const theme = useAppStore((s) => s.theme)
+  const { hasPermission } = usePermission()
+
+  // 无 sys:dashboard:list 权限时不请求、不展示统计数据
+  const canViewStats = hasPermission('sys:dashboard:list')
 
   const [stats, setStats] = useState({ user: 0, role: 0, menu: 0, dict: 0 })
   const [loading, setLoading] = useState(true)
 
-  // 拉取各模块总数（分页接口 size=1 取 total），菜单数直接递归统计菜单树
+  // 调用统计接口拉取各模块总数
   useEffect(() => {
-    let mounted = true
-    const menuCount = collectTreeKeys(menus, 'menuId').length
-    Promise.all([
-      getUserPage({ current: 1, size: 1 }).catch((e) => {
-        console.error('[dashboard] user count error:', e)
-        return { total: 0 }
-      }),
-      getRolePage({ current: 1, size: 1 }).catch((e) => {
-        console.error('[dashboard] role count error:', e)
-        return { total: 0 }
-      }),
-      getDictPage({ current: 1, size: 1 }).catch((e) => {
-        console.error('[dashboard] dict count error:', e)
-        return { total: 0 }
-      }),
-    ]).then(([u, r, d]) => {
-      if (!mounted) return
-      setStats({
-        user: u?.total || 0,
-        role: r?.total || 0,
-        menu: menuCount,
-        dict: d?.total || 0,
-      })
+    if (!canViewStats) {
       setLoading(false)
-    })
+      return undefined
+    }
+    let mounted = true
+    getDashboardStatistics()
+      .then((data) => {
+        if (!mounted) return
+        setStats({
+          user: data?.userCount || 0,
+          role: data?.roleCount || 0,
+          menu: data?.menuCount || 0,
+          dict: data?.dictCount || 0,
+        })
+      })
+      .catch((e) => {
+        console.error('[dashboard] statistics error:', e)
+      })
+      .finally(() => {
+        if (mounted) setLoading(false)
+      })
     return () => {
       mounted = false
     }
-  }, [menus])
+  }, [canViewStats])
 
   /** 按菜单名称从菜单树解析真实路径（后端 url 无前导 /） */
   const resolvePath = (name, fallback) => {
@@ -159,20 +158,22 @@ export default function Dashboard() {
         <span className="welcome-glow" />
       </div>
 
-      {/* 数据概览 */}
-      <Row gutter={[16, 16]} className="stat-row">
-        {STAT_META.map((meta, idx) => (
-          <Col xs={24} sm={12} xl={6} key={meta.key}>
-            <StatCard
-              meta={meta}
-              value={stats[meta.key]}
-              loading={loading}
-              delay={idx * 0.08}
-              onClick={() => navigate(resolvePath(meta.target, `/${meta.key}`))}
-            />
-          </Col>
-        ))}
-      </Row>
+      {/* 数据概览：无 sys:dashboard:list 权限时不展示 */}
+      {canViewStats && (
+        <Row gutter={[16, 16]} className="stat-row">
+          {STAT_META.map((meta, idx) => (
+            <Col xs={24} sm={12} xl={6} key={meta.key}>
+              <StatCard
+                meta={meta}
+                value={stats[meta.key]}
+                loading={loading}
+                delay={idx * 0.08}
+                onClick={() => navigate(resolvePath(meta.target, `/${meta.key}`))}
+              />
+            </Col>
+          ))}
+        </Row>
+      )}
 
       <Row gutter={[16, 16]}>
         {/* 快捷入口 */}
