@@ -1,12 +1,12 @@
 /**
  * useFileUrl
  * 管理文件访问链接（MINIO 预签名 URL）：
- * - 通过 /images/url 获取访问链接，并在签名过期前提前调用 getFileUrl 刷新，避免图片加载失败
+ * - 通过 /images/url 获取访问链接，并在签名过期前提前调用 getUserAvatarUrl 刷新，避免图片加载失败
  * - 图片加载失败（如签名已过期）时自动重取新链接，带冷却与次数限制，防止无效链接反复请求
  * - 标签页从后台切回时校验链接是否已过期，弥补后台定时器被浏览器节流的场景
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getFileUrl } from '../api/file'
+import { getUserAvatarUrl } from '../api/user'
 import { buildAuthUrl } from '../utils/helpers'
 
 /** 提前刷新余量：签名到期前 60s 刷新，规避时钟偏差与网络耗时 */
@@ -66,7 +66,7 @@ export function useFileUrl(businessType, options = {}) {
 
   const load = useCallback(
     async (forceBust = false) => {
-      const raw = await getFileUrl(businessType)
+      const raw = await getUserAvatarUrl()
       const next = buildAuthUrl(raw, forceBust || bust)
       if (!mountedRef.current) return next
       urlRef.current = next

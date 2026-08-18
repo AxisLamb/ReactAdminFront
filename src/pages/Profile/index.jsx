@@ -10,7 +10,7 @@ import {
   SafetyCertificateOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { uploadFile } from '../../api/file'
+import { uploadAvatar } from '../../api/user'
 import { useUserStore } from '../../store/userStore'
 import { getStorage, setStorage, STORAGE_KEYS } from '../../utils/storage'
 import { formatDateTime, AVATAR_UPDATED_EVENT } from '../../utils/helpers'
@@ -46,13 +46,8 @@ const Profile = () => {
   const handleAvatarUpload = ({ file, onProgress, onSuccess, onError }) => {
     setUploading(true)
     setPercent(0)
-    uploadFile(
+    uploadAvatar(
       file,
-      {
-        // serviceModule: 'user',
-        businessType: 'avatar',
-        businessId: String(userInfo?.userId || ''),
-      },
       (p) => {
         setPercent(p)
         onProgress({ percent: p })

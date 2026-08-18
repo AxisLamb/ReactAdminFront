@@ -43,3 +43,32 @@ export function updateUser(data) {
 export function deleteUsers(ids) {
   return request.post('/sys/user/delete', ids)
 }
+
+/**
+ * 获取用户头像访问链接
+ * @param {string} businessType 业务类型（如 avatar）
+ * @returns {Promise<string>} URL 字符串
+ */
+export function getUserAvatarUrl() {
+  return request.get('/sys/user/url')
+}
+
+/**
+ * 上传用户头像
+ * @param {File} file 图片对象
+ * @param {(percent: number) => void} onProgress 进度回调（0-100）
+ * @returns {Promise<{fileId, originalName, fileSize, fileType, filePath}>}
+ */
+export function uploadAvatar(file, meta = {}, onProgress) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return request.post('/sys/user/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    onUploadProgress: (e) => {
+      if (onProgress && e.total) {
+        onProgress(Math.round((e.loaded / e.total) * 100))
+      }
+    },
+  })
+}
+

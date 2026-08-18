@@ -17,7 +17,7 @@ export function uploadFile(file, meta = {}, onProgress) {
   if (meta.serviceModule) formData.append('serviceModule', meta.serviceModule)
   if (meta.businessType) formData.append('businessType', meta.businessType)
   if (meta.businessId) formData.append('businessId', meta.businessId)
-  return request.post('/images/upload', formData, {
+  return request.post('/files/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: (e) => {
       if (onProgress && e.total) {
@@ -33,7 +33,7 @@ export function uploadFile(file, meta = {}, onProgress) {
  * @param {string} filename 下载文件名
  */
 export function downloadFile(fileId, filename = 'download') {
-  return downloadBlob(`/images/download/${fileId}`, filename)
+  return downloadBlob(`/files/download/${fileId}`, filename)
 }
 
 /**
@@ -42,7 +42,7 @@ export function downloadFile(fileId, filename = 'download') {
  * @returns {Promise<string>} URL 字符串
  */
 export function getFileUrl(businessType) {
-  return request.get('/images/url', { params: { businessType } })
+  return request.get('/files/url', { params: { businessType } })
 }
 
 /**
@@ -51,7 +51,7 @@ export function getFileUrl(businessType) {
  * @returns {Promise<string>} URL 字符串
  */
 export function getFileUrlByFileId(fileId) {
-  return request.get('/images/getFileUrlByFileId', { params: { fileId } })
+  return request.get('/files/getFileUrlByFileId', { params: { fileId } })
 }
 
 /**
@@ -63,7 +63,7 @@ export function getFileUrlByFileId(fileId) {
  */
 export function downloadFileBlob(fileId) {
   return request
-    .get(`/images/download/${fileId}`, { responseType: 'blob' })
+    .get(`/files/download/${fileId}`, { responseType: 'blob' })
     .then((res) => res.data)
 }
 
@@ -72,7 +72,7 @@ export function downloadFileBlob(fileId) {
  * @param {string} fileId
  */
 export function deleteFile(fileId) {
-  return request.delete(`/images/${fileId}`)
+  return request.delete(`/files/${fileId}`)
 }
 
 /**
@@ -80,7 +80,7 @@ export function deleteFile(fileId) {
  * @param {{serviceModule?, businessType?, businessId?}} params
  */
 export function getFileList(params) {
-  return request.get('/images/list', { params })
+  return request.get('/files/list', { params })
 }
 
 /**
