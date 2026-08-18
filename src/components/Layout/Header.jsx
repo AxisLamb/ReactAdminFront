@@ -27,8 +27,8 @@ import { useUserStore } from '../../store/userStore'
 import { useTabStore } from '../../store/tabStore'
 import { useTheme, THEME_LIST } from '../../hooks/useTheme'
 import { getStorage, STORAGE_KEYS } from '../../utils/storage'
-import { AVATAR_UPDATED_EVENT, buildAuthUrl } from '../../utils/helpers'
-import { getFileUrl } from '../../api/file'
+import { AVATAR_UPDATED_EVENT } from '../../utils/helpers'
+import useFileUrl from '../../hooks/useFileUrl'
 
 function normalize(url) {
   if (!url) return ''
@@ -105,33 +105,23 @@ function Header() {
   }
 
   // ---- 用户下拉 ----
-  // 头像通过 /images/url 获取访问链接，拼接 satoken 后直接回显；
-  // 旧版 dataURL/外链直接沿用；监听 AVATAR_UPDATED_EVENT，个人中心上传成功后实时刷新
-  const [avatarUrl, setAvatarUrl] = useState('')
+  // 头像：旧版 dataURL / 外链直接回显；否则通过 /images/url 获取 MINIO 预签名链接，
+  // 链接过期前自动刷新、加载失败自动重取，避免头像裂图
+  const storedAvatar = getStorage(STORAGE_KEYS.AVATAR, '')
+  const initialAvatar =
+    storedAvatar.startsWith('data:') || /^https?:\/\//.test(storedAvatar) ? storedAvatar : ''
+  const {
+    url: avatarUrl,
+    refresh: refreshAvatar,
+    onError: handleAvatarError,
+  } = useFileUrl('avatar', { initialUrl: initialAvatar })
+
+  // 头像更新后带时间戳强制刷新，避免浏览器缓存旧图
   useEffect(() => {
-    let cancelled = false
-    const loadAvatar = async (bust = false) => {
-      const stored = getStorage(STORAGE_KEYS.AVATAR, '')
-      if (stored.startsWith('data:') || /^https?:\/\//.test(stored)) {
-        if (!cancelled) setAvatarUrl(stored)
-        return
-      }
-      try {
-        const url = await getFileUrl('avatar')
-        if (!cancelled) setAvatarUrl(buildAuthUrl(url, bust))
-      } catch {
-        if (!cancelled) setAvatarUrl('')
-      }
-    }
-    loadAvatar()
-    // 头像更新后带时间戳强制刷新，避免浏览器缓存旧图
-    const onAvatarUpdated = () => loadAvatar(true)
+    const onAvatarUpdated = () => refreshAvatar(true).catch(() => {})
     window.addEventListener(AVATAR_UPDATED_EVENT, onAvatarUpdated)
-    return () => {
-      cancelled = true
-      window.removeEventListener(AVATAR_UPDATED_EVENT, onAvatarUpdated)
-    }
-  }, [])
+    return () => window.removeEventListener(AVATAR_UPDATED_EVENT, onAvatarUpdated)
+  }, [refreshAvatar])
 
   const userMenuItems = [
     { key: 'profile', icon: <UserOutlined />, label: '个人中心' },
@@ -208,6 +198,7 @@ function Header() {
               size={30}
               src={avatarUrl || undefined}
               icon={<UserOutlined />}
+              onError={handleAvatarError}
               className="user-avatar"
             />
             <span className="user-name">

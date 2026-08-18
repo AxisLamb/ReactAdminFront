@@ -170,7 +170,7 @@ export function buildAuthUrl(url, bust = false) {
   if (!url) return ''
   let result = url
   const token = getStorage(STORAGE_KEYS.TOKEN)
-  if (token) result = appendParam(result, 'satoken', token)
+  // if (token) result = appendParam(result, 'satoken', token)
   if (bust) result = appendParam(result, '_t', Date.now())
   return result
 }

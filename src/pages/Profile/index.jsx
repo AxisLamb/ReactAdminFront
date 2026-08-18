@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { App, Avatar, Card, Col, Row, Tabs, Tag, Upload } from 'antd'
 import {
   CameraOutlined,
@@ -10,10 +10,11 @@ import {
   SafetyCertificateOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { getFileUrl, uploadFile } from '../../api/file'
+import { uploadFile } from '../../api/file'
 import { useUserStore } from '../../store/userStore'
 import { getStorage, setStorage, STORAGE_KEYS } from '../../utils/storage'
-import { formatDateTime, AVATAR_UPDATED_EVENT, buildAuthUrl } from '../../utils/helpers'
+import { formatDateTime, AVATAR_UPDATED_EVENT } from '../../utils/helpers'
+import useFileUrl from '../../hooks/useFileUrl'
 import InfoForm from './components/InfoForm'
 import PasswordForm from './components/PasswordForm'
 import './profile.css'
@@ -28,26 +29,16 @@ const Profile = () => {
   const userInfo = useUserStore((s) => s.userInfo)
   const [uploading, setUploading] = useState(false)
   const [percent, setPercent] = useState(0)
-  const [avatarUrl, setAvatarUrl] = useState('')
 
-  // 通过 /images/url 获取头像访问链接，拼接 satoken 后直接回显；
-  // 旧版存储的 dataURL / 外链直接回显
-  useEffect(() => {
-    const stored = getStorage(STORAGE_KEYS.AVATAR)
-    if (stored && (stored.startsWith('data:') || /^https?:\/\//.test(stored))) {
-      setAvatarUrl(stored)
-      return undefined
-    }
-    let active = true
-    getFileUrl('avatar')
-      .then((url) => {
-        if (active && url) setAvatarUrl(buildAuthUrl(url))
-      })
-      .catch((e) => console.error('[Profile] load avatar error:', e))
-    return () => {
-      active = false
-    }
-  }, [])
+  // 头像：旧版存储的 dataURL / 外链直接回显；否则通过 /images/url 获取 MINIO 预签名链接。
+  // 链接过期前自动刷新、加载失败自动重取，避免头像裂图
+  const stored = getStorage(STORAGE_KEYS.AVATAR)
+  const initialUrl =
+    stored && (stored.startsWith('data:') || /^https?:\/\//.test(stored)) ? stored : ''
+  const { url: avatarUrl, refresh: refreshAvatar, onError: handleAvatarError } = useFileUrl(
+    'avatar',
+    { initialUrl },
+  )
 
   const displayName = userInfo?.realName || userInfo?.userName || '-'
 
@@ -71,9 +62,9 @@ const Profile = () => {
         const fileId = result?.fileId
         if (!fileId) throw new Error('上传结果缺少 fileId')
         setStorage(STORAGE_KEYS.AVATAR, fileId)
-        const url = await getFileUrl('avatar')
-        // 追加时间戳避免浏览器缓存旧头像
-        setAvatarUrl(buildAuthUrl(url, true))
+        // 重新获取带鉴权的新链接并追加时间戳，避免浏览器缓存旧头像
+        const url = await refreshAvatar(true)
+        if (!url) throw new Error('获取头像链接失败')
         // 通知顶栏 Header 实时刷新头像回显
         window.dispatchEvent(new Event(AVATAR_UPDATED_EVENT))
         onSuccess(result, file)
@@ -113,7 +104,12 @@ const Profile = () => {
               customRequest={handleAvatarUpload}
             >
               <div className="profile-avatar-wrap">
-                <Avatar size={96} src={avatarUrl} icon={<UserOutlined />}>
+                <Avatar
+                  size={96}
+                  src={avatarUrl}
+                  icon={<UserOutlined />}
+                  onError={handleAvatarError}
+                >
                   {String(displayName).charAt(0).toUpperCase()}
                 </Avatar>
                 <span className="profile-avatar-mask">
