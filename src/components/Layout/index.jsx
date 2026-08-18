@@ -42,9 +42,11 @@ function Layout() {
     // 根路径由路由层重定向到 /dashboard，不生成标签
     if (path === '/') return
     const menu = pathMenuMap[path]
+    // /profile 为静态注册页面，不在菜单树中，单独映射标题
+    const staticTitle = path === '/dashboard' ? '首页' : path === '/profile' ? '个人中心' : ''
     addTab({
       key: path,
-      title: path === '/dashboard' ? '首页' : menu?.name || path,
+      title: staticTitle || menu?.name || path,
       closable: path !== '/dashboard',
     })
   }, [location.pathname, pathMenuMap, addTab])

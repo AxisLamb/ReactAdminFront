@@ -114,14 +114,16 @@ export default function Login() {
             <p>请输入您的账号信息，开启高效管理之旅</p>
           </div>
 
-          <Alert
-            className="login-alert"
-            message={errorMsg}
-            type="error"
-            showIcon
-            closable
-            onClose={() => setErrorMsg('')}
-          />
+          {errorMsg && (
+            <Alert
+              className="login-alert"
+              message={errorMsg}
+              type="error"
+              showIcon
+              closable
+              onClose={() => setErrorMsg('')}
+            />
+          )}
 
           <Form
             name="login"

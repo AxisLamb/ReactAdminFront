@@ -29,7 +29,8 @@ const excludeNode = (nodes, targetId) =>
 /**
  * 菜单新增 / 编辑弹窗
  * - 父级菜单：TreeSelect（按钮类型不可作父级；编辑时排除自身子树）
- * - 类型联动：目录显示 URL/图标；菜单追加组件名称/权限标识；按钮仅名称/权限标识
+ * - 类型联动：目录显示 URL/图标；菜单追加组件名称/权限标识；按钮仅名称/权限标识；
+ *   接口目录/业务/接口（3/4/5）为接口权限相关类型，展示 URL/图标/权限标识
  * - 图标选择：IconSelect 弹层网格选择
  */
 const MenuModal = ({ open, record, parent, onCancel, onSuccess }) => {
@@ -76,7 +77,8 @@ const MenuModal = ({ open, record, parent, onCancel, onSuccess }) => {
   const parentOptions = useMemo(() => {
     const toOptions = (nodes) =>
       (nodes || [])
-        .filter((n) => n.type !== 2)
+        // 按钮（2）与接口（5）为末端节点，不可作父级
+        .filter((n) => n.type !== 2 && n.type !== 5)
         .map((n) => ({
           value: n.menuId,
           title: n.name,
@@ -164,6 +166,9 @@ const MenuModal = ({ open, record, parent, onCancel, onSuccess }) => {
             <Radio value={0}>目录</Radio>
             <Radio value={1}>菜单</Radio>
             <Radio value={2}>按钮</Radio>
+            <Radio value={3}>接口目录</Radio>
+            <Radio value={4}>业务</Radio>
+            <Radio value={5}>接口</Radio>
           </Radio.Group>
         </Form.Item>
 

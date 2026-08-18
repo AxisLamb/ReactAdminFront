@@ -14,16 +14,16 @@ function normalize(url) {
   return url.startsWith('/') ? url : `/${url}`
 }
 
-// 递归构建 AntD Menu items（过滤按钮类型 type=2）
+// 递归构建 AntD Menu items（仅保留目录 type=0 与菜单 type=1，过滤按钮 type=2 及 type>2 的节点）
 function buildMenuItems(nodes) {
   if (!nodes) return []
   return nodes
-    .filter((n) => n.type !== 2)
+    .filter((n) => n.type < 2)
     .map((node) => {
       const key = normalize(node.url)
       const IconComp = MENU_ICONS[node.icon]
       const icon = IconComp ? <IconComp /> : null
-      const visibleChildren = (node.children || []).filter((c) => c.type !== 2)
+      const visibleChildren = (node.children || []).filter((c) => c.type < 2)
       if (node.type === 0 && visibleChildren.length) {
         return {
           key,

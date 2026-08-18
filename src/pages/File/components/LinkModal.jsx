@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { App, Button, Input, Modal, Space, Spin, Tag } from 'antd'
 import { CopyOutlined, ExportOutlined, LinkOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
-import { getFileUrl } from '../../../api/file'
+import { getFileUrlByFileId } from '../../../api/file'
 
 /** 复制文本（clipboard 不可用时降级为 textarea 选中复制） */
 const copyText = (text, done) => {
@@ -26,7 +26,7 @@ const copyText = (text, done) => {
 
 /**
  * 文件访问链接弹窗
- * 打开时调用 /images/url/{fileId} 换取真实访问地址，支持一键复制与新窗口打开
+ * 打开时调用 /images/getFileUrlByFileId 换取真实访问地址，支持一键复制与新窗口打开
  */
 const LinkModal = ({ open, record, onClose }) => {
   const { message } = App.useApp()
@@ -37,7 +37,7 @@ const LinkModal = ({ open, record, onClose }) => {
     if (!open || !record) return
     setLoading(true)
     setUrl('')
-    getFileUrl(record.fileId)
+    getFileUrlByFileId(record.fileId)
       .then((data) => setUrl(data || ''))
       .catch((e) => console.error('[LinkModal] fetch url error:', e))
       .finally(() => setLoading(false))

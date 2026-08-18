@@ -82,6 +82,11 @@ const FileList = () => {
     }
   }
 
+  /** 获取访问链接：打开弹窗，由 LinkModal 调用 getFileUrlByFileId 换取真实 URL 展示 */
+  const handleGetLink = (record) => {
+    setLinkRecord(record)
+  }
+
   /** 下载（blob 流，错误由 request 层兜底提示） */
   const handleDownload = (record) => {
     downloadFile(record.fileId, record.originalName)
@@ -188,7 +193,7 @@ const FileList = () => {
             type="link"
             className="action-link"
             icon={<LinkOutlined />}
-            onClick={() => setLinkRecord(record)}
+            onClick={() => handleGetLink(record)}
           >
             链接
           </Button>

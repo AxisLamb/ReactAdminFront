@@ -15,9 +15,12 @@ import '../../styles/list-page.css'
 
 /** 菜单类型元信息：0 目录 / 1 菜单 / 2 按钮 */
 const MENU_TYPES = {
-  0: { label: '目录', color: 'blue' },
-  1: { label: '菜单', color: 'green' },
+  0: { label: '菜单', color: 'blue' },
+  1: { label: '页面', color: 'green' },
   2: { label: '按钮', color: 'orange' },
+  3: { label: '接口目录', color: 'red' },
+  4: { label: '业务', color: 'green' },
+  5: { label: '接口', color: 'orange' },
 }
 
 /**
@@ -124,20 +127,20 @@ const MenuList = () => {
       width: 180,
       render: (perms) => (perms ? <code className="code-tag">{perms}</code> : '-'),
     },
-    {
-      title: '排序',
-      dataIndex: 'orderNum',
-      key: 'orderNum',
-      width: 80,
-      align: 'center',
-    },
+    // {
+    //   title: '排序',
+    //   dataIndex: 'orderNum',
+    //   key: 'orderNum',
+    //   width: 80,
+    //   align: 'center',
+    // },
     {
       title: '操作',
       key: 'action',
       width: 190,
       render: (_, record) => (
         <Space size={4}>
-          {record.type !== 2 && (
+          {record.type !== 2 && record.type !== 5 && (
             <Permission perms="sys:menu:save">
               <Button
                 type="link"

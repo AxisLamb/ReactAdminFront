@@ -69,11 +69,15 @@ const UserList = () => {
 
   useEffect(() => {
     fetchData(1, 10, {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  /** 拉取角色列表（每次打开弹窗刷新，保证新增角色后立即可选） */
+  const loadRoles = () => {
     getRoles()
       .then((data) => setRoles(Array.isArray(data) ? data : []))
       .catch((e) => console.error('[UserList] load roles error:', e))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }
 
   /** 搜索 / 重置 */
   const handleSearch = (values) => {
@@ -120,6 +124,8 @@ const UserList = () => {
   const openModal = (record = null) => {
     setEditingRecord(record)
     setModalOpen(true)
+    // 打开弹窗时刷新角色列表，新增角色后无需刷新页面即可选择
+    loadRoles()
   }
 
   const handleModalSuccess = () => {
