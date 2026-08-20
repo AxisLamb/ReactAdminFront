@@ -6,7 +6,11 @@
   "description": "ReactAdmin 企业级后台管理系统前端",
   "scripts": {
     "dev": "vite",
+    "dev:test": "vite --mode test",
+    "dev:prod": "vite --mode production",
     "build": "vite build",
+    "build:test": "vite build --mode test",
+    "build:prod": "vite build --mode production",
     "preview": "vite preview"
   },
   "dependencies": {
