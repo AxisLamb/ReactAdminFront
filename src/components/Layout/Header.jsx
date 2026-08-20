@@ -68,6 +68,7 @@ function Header() {
   const breadcrumbItems = useMemo(() => {
     if (activeKey === '/dashboard') return [{ title: '首页' }]
     if (activeKey === '/profile') return [{ title: '个人中心' }]
+    if (activeKey === '/sys/config/loginPage') return [{ title: '登录页配置' }]
     const chain = findChain(menus, activeKey)
     if (chain && chain.length) return chain.map((n) => ({ title: n.name }))
     return [{ title: activeKey }]
