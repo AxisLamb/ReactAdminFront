@@ -1,11 +1,21 @@
-# ReactAdmin - 多数据库支持的经典后台管理系统
+# 挑战全网最简单功能最全最好学的RBAC管理系统!
 
-## 项目概述
+### 项目概述
 
-**ReactAdmin** 是一个基于 RBAC（基于角色的访问控制）模式的经典后台管理系统。该项目采用前后端分离架构，系统非常简约，只有7张表，但是五脏俱全，简化了学习成本。欢迎各位提出ISSUE或一起开发！
+**ReactAdmin** 是一套基于 RBAC 模型的后台管理脚手架。
 
-用户登录：
-admin/admin123
+做这个项目的初衷很简单：市面上大多数后台管理系统要么太重，依赖一堆复杂组件，上手门槛高；要么太轻，只搭了个壳子，离实际开发还有一段距离。我希望能做一个介于两者之间的东西——功能完整，但结构足够清晰，代码也足够干净。
+
+整个系统只有 7 张表，但用户管理、角色权限、菜单配置、操作日志、文件管理、数据字典这些后台必备的能力全都包含在内。你可以把它当成一个“刚刚好”的起点，无论是拿来直接做项目，还是作为学习 RBAC 和 Spring Boot + React 全家桶的示例，都挺合适。
+
+登录账号：admin / admin123
+
+![登录页轮播](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%99%BB%E5%BD%95%E9%A1%B5.png?Expires=1787202269&OSSAccessKeyId=TMP.3KwEuKLTv2WCXjEScsNRutX4zA5Q2v9jD5yCP3ZtpaYL3JecXr9pfnUmgGH8FiL8ooDU4gPXVLwoiiWaqRTmdEGc5AxYyq&Signature=uzBy%2BOusPPeJ2ezs6kB5GdzlqA4%3D)
+![系统页面](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%B3%BB%E7%BB%9F%E9%A1%B5%E9%9D%A2.png)
+![菜单权限以及接口权限](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E8%8F%9C%E5%8D%95%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90.png)
+![文件管理](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86.png)
+![角色配置](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E8%A7%92%E8%89%B2%E9%85%8D%E7%BD%AE.png)
+![登录页轮播配置](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%99%BB%E5%BD%95%E9%A1%B5%E8%BD%AE%E8%AF%A2%E9%85%8D%E7%BD%AE.png)
 
 ### 技术栈
 
@@ -90,10 +100,9 @@ os:
       secret-key: password
     
     aliyun:
-      oss:
-        endpoint: your-endpoint
-        access-key-id: your-access-key-id
-        access-key-secret: your-access-key-secret
+      endpoint: your-endpoint
+      access-key-id: your-access-key-id
+      access-key-secret: your-access-key-secret
 ```
 
 
@@ -159,6 +168,10 @@ os:
 - **开箱即用**: 完整的权限管理和基础功能模块
 - **技术前沿**: 采用最新的 Java 21 和 Spring Boot 3.2.0
 
-## 总结
+### 总结
 
-ReactAdmin 是一个功能完善、技术先进、扩展性强的企业级后台管理系统模板。其最大的特点是**高度解耦的设计**，无论是数据库、文件存储还是缓存系统，都可以根据实际需求灵活配置，非常适合需要适配多种技术栈和部署环境的企业级项目。
+如果要用一句话概括 ReactAdmin，那就是：**该有的都有，不该有的绝不乱加。**
+
+它不像一些重型框架那样让你花大量时间理解它的约定和插件机制，也不像简单的 demo 那样只能看看不能实战。我们在设计时最看重两件事：一是**核心功能要完整**，权限、日志、存储、缓存这些企业级必备的能力都要覆盖；二是**扩展要简单**，数据库可以从 MySQL 切到 PostgreSQL，文件存储可以从本地换成 MinIO 或阿里云，缓存可以从本地切到 Redis，改几行配置就能搞定。
+
+这套简单的RBAC系统目前还在开发中，不敢说完美，但胜在实在。欢迎提 Issue 或一起贡献代码，让这个项目对更多人有用。
