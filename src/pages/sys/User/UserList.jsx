@@ -11,7 +11,7 @@ import { deleteUsers, getUserPage } from '@/api/user'
 import { getRoles } from '@/api/role'
 import useDict from '@/hooks/useDict'
 import Permission from '@/components/Permission'
-import UserModal from '@/pages/User/components/UserModal'
+import UserModal from '@/pages/sys/User/components/UserModal'
 import '@/styles/list-page.css'
 
 const AVATAR_COLORS = [

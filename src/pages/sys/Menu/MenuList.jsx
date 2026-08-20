@@ -10,7 +10,7 @@ import Permission from '@/components/Permission'
 import { MENU_ICONS } from '@/components/IconSelect/iconMap'
 import { deleteMenu, getMenuListAll } from '@/api/menu'
 import { collectTreeKeys, listToTree } from '@/utils/helpers'
-import MenuModal from '@/pages/Menu/components/MenuModal'
+import MenuModal from '@/pages/sys/Menu/components/MenuModal'
 import '@/styles/list-page.css'
 
 /** 菜单类型元信息：0 目录 / 1 菜单 / 2 按钮 */

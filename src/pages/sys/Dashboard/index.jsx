@@ -17,7 +17,7 @@ import { usePermission } from '@/hooks/usePermission'
 import { THEME_LIST } from '@/hooks/useTheme'
 import { getGreeting, formatDate, traverseTree } from '@/utils/helpers'
 import brandImg from '@/assets/login-brand.png'
-import '@/pages/Dashboard/dashboard.css'
+import '@/pages/sys/Dashboard/dashboard.css'
 
 /**
  * 数字滚动动画 Hook（easeOutCubic）

@@ -8,7 +8,7 @@ import { getLoginPageImages } from '@/api/sysConfig'
 import { getCarouselConfig } from '@/utils/loginConfig'
 import logoImg from '@/assets/logo.png'
 import brandImg from '@/assets/login-brand.png'
-import '@/pages/Login/login.css'
+import '@/pages/sys/Login/login.css'
 
 const REMEMBER_KEY = 'remembered_username'
 

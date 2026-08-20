@@ -15,9 +15,9 @@ import { useUserStore } from '@/store/userStore'
 import { getStorage, setStorage, STORAGE_KEYS } from '@/utils/storage'
 import { formatDateTime, AVATAR_UPDATED_EVENT } from '@/utils/helpers'
 import useFileUrl from '@/hooks/useFileUrl'
-import InfoForm from '@/pages/Profile/components/InfoForm'
-import PasswordForm from '@/pages/Profile/components/PasswordForm'
-import '@/pages/Profile/profile.css'
+import InfoForm from '@/pages/sys/Profile/components/InfoForm'
+import PasswordForm from '@/pages/sys/Profile/components/PasswordForm'
+import '@/pages/sys/Profile/profile.css'
 
 /**
  * 个人中心

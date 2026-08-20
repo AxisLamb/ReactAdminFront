@@ -23,7 +23,7 @@ import { getFileList, deleteFile } from '@/api/file'
 import { uploadLoginPageImage } from '@/api/sysConfig'
 import { getCarouselConfig, saveCarouselConfig } from '@/utils/loginConfig'
 import { formatFileSize, formatDate } from '@/utils/helpers'
-import '@/pages/SysConfig/sysconfig.css'
+import '@/pages/sys/SysConfig/sysconfig.css'
 
 const { Dragger } = Upload
 

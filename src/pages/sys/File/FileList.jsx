@@ -13,11 +13,11 @@ import {
 import { deleteFile, downloadFile, getFilePage } from '@/api/file'
 import Permission from '@/components/Permission'
 import { formatBytes, formatDateTime } from '@/utils/helpers'
-import { getFileMeta } from '@/pages/File/fileMeta'
-import UploadPanel from '@/pages/File/components/UploadPanel'
-import LinkModal from '@/pages/File/components/LinkModal'
+import { getFileMeta } from '@/pages/sys/File/fileMeta'
+import UploadPanel from '@/pages/sys/File/components/UploadPanel'
+import LinkModal from '@/pages/sys/File/components/LinkModal'
 import '@/styles/list-page.css'
-import '@/pages/File/file-list.css'
+import '@/pages/sys/File/file-list.css'
 
 const MODULE_SUGGESTIONS = [{ value: 'default' }, { value: 'user' }]
 

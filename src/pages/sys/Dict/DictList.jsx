@@ -4,8 +4,8 @@ import { OrderedListOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } fro
 import Permission from '@/components/Permission'
 import { deleteDict, getDictPage } from '@/api/dict'
 import { useDictStore } from '@/store/dictStore'
-import DictModal from '@/pages/Dict/components/DictModal'
-import DictItemDrawer from '@/pages/Dict/components/DictItemDrawer'
+import DictModal from '@/pages/sys/Dict/components/DictModal'
+import DictItemDrawer from '@/pages/sys/Dict/components/DictItemDrawer'
 import '@/styles/list-page.css'
 
 /** 字典状态选项（字典自身状态无对应字典类型，使用固定选项避免循环依赖） */

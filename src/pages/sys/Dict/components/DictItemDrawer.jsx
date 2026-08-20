@@ -4,7 +4,7 @@ import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 import Permission from '@/components/Permission'
 import { deleteDictItem, getDictItemPage } from '@/api/dict'
-import DictItemModal from '@/pages/Dict/components/DictItemModal'
+import DictItemModal from '@/pages/sys/Dict/components/DictItemModal'
 
 const STATUS_OPTIONS = [
   { label: '正常', value: 1 },
