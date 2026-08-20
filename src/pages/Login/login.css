@@ -24,6 +24,39 @@
     linear-gradient(135deg, #001529 0%, #003a8c 55%, #096dd9 100%);
 }
 
+/* ============ 品牌面板轮播背景图 ============ */
+.brand-carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.brand-carousel-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.brand-carousel-slide.active {
+  opacity: 1;
+}
+
+/* 深蓝渐变遮罩：保证白色品牌文字在图片上的可读性 */
+.brand-carousel-mask {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 21, 41, 0.72) 0%,
+    rgba(0, 58, 140, 0.45) 60%,
+    rgba(9, 109, 217, 0.3) 100%
+  );
+}
+
 /* 流动几何装饰 */
 .brand-shape {
   position: absolute;

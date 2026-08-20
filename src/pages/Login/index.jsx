@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Form, Input, Button, Checkbox, Alert, App } from 'antd'
 import { UserOutlined, LockOutlined, SafetyCertificateOutlined, TeamOutlined, BarChartOutlined } from '@ant-design/icons'
 import { useUserStore } from '../../store/userStore'
 import { getStorage, setStorage, removeStorage } from '../../utils/storage'
+import { getLoginPageImages } from '../../api/sysConfig'
+import { getCarouselConfig } from '../../utils/loginConfig'
 import logoImg from '../../assets/logo.png'
 import brandImg from '../../assets/login-brand.png'
 import './login.css'
@@ -43,6 +45,42 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState('')
   const remembered = getStorage(REMEMBER_KEY, '')
 
+  // ========== 登录页轮播图 ==========
+  // 开关与间隔由「系统配置-登录页配置」页面持久化在 localStorage
+  const [carouselImages, setCarouselImages] = useState([])
+  const [carouselIndex, setCarouselIndex] = useState(0)
+  const [carouselMs, setCarouselMs] = useState(5000)
+
+  useEffect(() => {
+    const config = getCarouselConfig()
+    if (!config.enabled) return
+    let alive = true
+    getLoginPageImages()
+      .then((urls) => {
+        if (!alive || !Array.isArray(urls)) return
+        const valid = urls.filter(Boolean)
+        if (valid.length > 0) {
+          setCarouselImages(valid)
+          setCarouselMs(config.interval * 1000)
+        }
+      })
+      .catch(() => {
+        // 拉取失败时静默降级为默认登录页
+      })
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  // 多张图片时按间隔切换（淡入淡出由 CSS transition 完成）
+  useEffect(() => {
+    if (carouselImages.length <= 1) return
+    const timer = setInterval(() => {
+      setCarouselIndex((i) => (i + 1) % carouselImages.length)
+    }, carouselMs)
+    return () => clearInterval(timer)
+  }, [carouselImages, carouselMs])
+
   const handleFinish = async (values) => {
     setLoading(true)
     setErrorMsg('')
@@ -69,6 +107,24 @@ export default function Login() {
     <div className="login-page">
       {/* 左侧品牌面板 */}
       <div className="login-brand">
+        {/* 轮播背景图（开关开启且有图片时渲染，覆盖默认渐变背景） */}
+        {carouselImages.length > 0 && (
+          <div className="brand-carousel" aria-hidden="true">
+            {carouselImages.map((url, i) => (
+              <div
+                key={url}
+                className={
+                  i === carouselIndex
+                    ? 'brand-carousel-slide active'
+                    : 'brand-carousel-slide'
+                }
+                style={{ backgroundImage: `url("${url}")` }}
+              />
+            ))}
+            <div className="brand-carousel-mask" />
+          </div>
+        )}
+
         {/* 流动几何装饰 */}
         <span className="brand-shape brand-shape-ring" />
         <span className="brand-shape brand-shape-square" />
@@ -84,7 +140,7 @@ export default function Login() {
 
         <div className="brand-body">
           <h1 className="brand-slogan">
-            一站式后台管理
+            极简RBAC后台管理系统
             <br />
             让团队协作更高效
           </h1>
@@ -101,9 +157,9 @@ export default function Login() {
           </ul>
         </div>
 
-        <div className="brand-visual">
+        {/* <div className="brand-visual">
           <img src={brandImg} alt="品牌插画" draggable={false} />
-        </div>
+        </div> */}
       </div>
 
       {/* 右侧登录区 */}

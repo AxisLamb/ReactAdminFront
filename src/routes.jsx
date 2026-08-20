@@ -16,6 +16,8 @@ export const componentRegistry = {
   DictList: lazy(() => import('./pages/Dict/DictList.jsx')),
   FileList: lazy(() => import('./pages/File/FileList.jsx')),
   Profile: lazy(() => import('./pages/Profile/index.jsx')),
+  SysConfig: lazy(() => import('./pages/SysConfig/index.jsx')),
+  LoginConfig: lazy(() => import('./pages/SysConfig/LoginPageConfig.jsx')),
 }
 
 /**
@@ -76,8 +78,14 @@ export function buildRoutes(routeTree) {
  * @returns {Object<string, string>}
  */
 export function buildPathComponentMap(routeTree) {
-  // /dashboard、/profile 为静态注册页面，不依赖后端菜单路由树
-  const map = { '/dashboard': 'Dashboard', '/profile': 'Profile' }
+  // /dashboard、/profile 为静态注册页面，不依赖后端菜单路由树；
+  // /sys/config 系列兜底映射，后端路由树未配置组件名时仍可访问
+  const map = {
+    '/dashboard': 'Dashboard',
+    '/profile': 'Profile',
+    '/sys/config': 'SysConfig',
+    '/sys/config/loginPage': 'LoginConfig',
+  }
   const traverse = (nodes, parentPath) => {
     if (!Array.isArray(nodes)) return
     nodes.forEach((node) => {

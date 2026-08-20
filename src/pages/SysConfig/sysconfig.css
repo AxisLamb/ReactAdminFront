@@ -1,0 +1,95 @@
+/* ============ 系统配置入口卡片 ============ */
+.sysconfig-entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.sysconfig-entry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid #e5e9f2;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sysconfig-entry:hover {
+  border-color: #1677ff;
+  box-shadow: 0 4px 14px rgba(22, 119, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.sysconfig-entry-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  font-size: 22px;
+  color: #1677ff;
+  background: rgba(22, 119, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.sysconfig-entry-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sysconfig-entry-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.sysconfig-entry-desc {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.sysconfig-entry-arrow {
+  color: #c0c4cc;
+  font-size: 12px;
+}
+
+.sysconfig-entry:hover .sysconfig-entry-arrow {
+  color: #1677ff;
+}
+
+/* ============ 登录页配置：轮播设置 ============ */
+.login-config-setting {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.login-config-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-config-label {
+  font-size: 14px;
+  color: #374151;
+}
+
+.login-config-tip {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ============ 登录页配置：图片表格 ============ */
+.login-config-thumb {
+  object-fit: cover;
+  border-radius: 4px;
+}

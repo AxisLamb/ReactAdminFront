@@ -71,4 +71,5 @@ export const STORAGE_KEYS = {
   PERMISSIONS: 'permissions',
   THEME: 'theme',
   AVATAR: 'avatar',
+  LOGIN_CAROUSEL: 'login_carousel',
 }

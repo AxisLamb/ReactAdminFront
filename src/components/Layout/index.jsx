@@ -42,8 +42,13 @@ function Layout() {
     // 根路径由路由层重定向到 /dashboard，不生成标签
     if (path === '/') return
     const menu = pathMenuMap[path]
-    // /profile 为静态注册页面，不在菜单树中，单独映射标题
-    const staticTitle = path === '/dashboard' ? '首页' : path === '/profile' ? '个人中心' : ''
+    // 静态注册页面不在菜单树中，标题走兜底映射
+    const STATIC_TITLES = {
+      '/dashboard': '首页',
+      '/profile': '个人中心',
+      '/sys/config/loginPage': '登录页配置',
+    }
+    const staticTitle = STATIC_TITLES[path] || ''
     addTab({
       key: path,
       title: staticTitle || menu?.name || path,

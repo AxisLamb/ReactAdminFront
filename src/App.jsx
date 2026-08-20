@@ -35,6 +35,9 @@ function AppRoutes() {
               { path: '/dashboard', element: null },
               // 个人中心为登录用户通用页面，不依赖后端菜单路由，静态注册
               { path: '/profile', element: null },
+              // 系统配置：/sys/config 由后端菜单下发，loginPage 子页为前端静态入口
+              { path: '/sys/config', element: null },
+              { path: '/sys/config/loginPage', element: null },
               ...dynamic,
               { path: '*', element: null },
             ],
