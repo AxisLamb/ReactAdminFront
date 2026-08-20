@@ -8,9 +8,10 @@ import { MENU_ICONS } from '@/components/IconSelect/iconMap'
 import { traverseTree } from '@/utils/helpers'
 import logoImg from '@/assets/logo.png'
 
-// 菜单 url 归一化为路由 path（补前导 /）
+// 菜单 url 归一化为路由 path（补前导 /；外链 http(s):// 原样保留）
 function normalize(url) {
   if (!url) return ''
+  if (/^https?:\/\//i.test(url)) return url
   return url.startsWith('/') ? url : `/${url}`
 }
 
@@ -76,7 +77,14 @@ function Sidebar() {
         selectedKeys={[activeKey]}
         defaultOpenKeys={defaultOpenKeys}
         items={items}
-        onClick={({ key }) => navigate(key)}
+        onClick={({ key }) => {
+          // 外链菜单：新窗口打开；内部菜单：SPA 路由跳转
+          if (/^https?:\/\//i.test(key)) {
+            window.open(key, '_blank', 'noopener,noreferrer')
+          } else {
+            navigate(key)
+          }
+        }}
         className="sider-menu"
       />
     </AntLayout.Sider>
