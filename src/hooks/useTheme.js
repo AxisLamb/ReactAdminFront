@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { theme as antdTheme } from 'antd'
-import { useAppStore } from '../store/appStore'
+import { useAppStore } from '@/store/appStore'
 
 // 各主题对应的 AntD 主色
 const THEME_PRIMARY = {

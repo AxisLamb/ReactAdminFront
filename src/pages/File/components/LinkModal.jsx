@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { App, Button, Input, Modal, Space, Spin, Tag } from 'antd'
 import { CopyOutlined, ExportOutlined, LinkOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
-import { getFileUrlByFileId } from '../../../api/file'
+import { getFileUrlByFileId } from '@/api/file'
 
 /** 复制文本（clipboard 不可用时降级为 textarea 选中复制） */
 const copyText = (text, done) => {

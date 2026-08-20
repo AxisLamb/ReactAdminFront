@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useUserStore } from '../../store/userStore'
+import { useUserStore } from '@/store/userStore'
 
 /**
  * 按钮级权限包裹组件

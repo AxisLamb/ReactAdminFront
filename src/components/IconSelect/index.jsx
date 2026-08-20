@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 import { Input, Popover } from 'antd'
 import { CloseCircleFilled, DownOutlined, SearchOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
-import { ICON_NAMES, MENU_ICONS } from './iconMap'
-import './icon-select.css'
+import { ICON_NAMES, MENU_ICONS } from '@/components/IconSelect/iconMap'
+import '@/components/IconSelect/icon-select.css'
 
 /**
  * 菜单图标选择器

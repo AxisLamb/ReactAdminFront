@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message } from 'antd'
-import { getStorage, removeStorage, STORAGE_KEYS } from './storage'
+import { getStorage, removeStorage, STORAGE_KEYS } from '@/utils/storage'
 
 /**
  * Axios 实例

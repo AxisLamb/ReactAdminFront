@@ -7,12 +7,12 @@ import {
   ReloadOutlined,
   SearchOutlined,
 } from '@ant-design/icons'
-import { deleteUsers, getUserPage } from '../../api/user'
-import { getRoles } from '../../api/role'
-import useDict from '../../hooks/useDict'
-import Permission from '../../components/Permission'
-import UserModal from './components/UserModal'
-import '../../styles/list-page.css'
+import { deleteUsers, getUserPage } from '@/api/user'
+import { getRoles } from '@/api/role'
+import useDict from '@/hooks/useDict'
+import Permission from '@/components/Permission'
+import UserModal from '@/pages/User/components/UserModal'
+import '@/styles/list-page.css'
 
 const AVATAR_COLORS = [
   '#1890FF', '#52C41A', '#FAAD14', '#722ED1',

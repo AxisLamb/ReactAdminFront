@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Button, Result, Spin } from 'antd'
-import { useUserStore } from './store/userStore'
+import { useUserStore } from '@/store/userStore'
 
 /**
  * 组件注册表
@@ -9,15 +9,15 @@ import { useUserStore } from './store/userStore'
  * 未注册的组件名将降级为 404 提示页
  */
 export const componentRegistry = {
-  Dashboard: lazy(() => import('./pages/Dashboard/index.jsx')),
-  UserList: lazy(() => import('./pages/User/UserList.jsx')),
-  RoleList: lazy(() => import('./pages/Role/RoleList.jsx')),
-  MenuList: lazy(() => import('./pages/Menu/MenuList.jsx')),
-  DictList: lazy(() => import('./pages/Dict/DictList.jsx')),
-  FileList: lazy(() => import('./pages/File/FileList.jsx')),
-  Profile: lazy(() => import('./pages/Profile/index.jsx')),
-  SysConfig: lazy(() => import('./pages/SysConfig/index.jsx')),
-  LoginConfig: lazy(() => import('./pages/SysConfig/LoginPageConfig.jsx')),
+  Dashboard: lazy(() => import('@/pages/Dashboard/index.jsx')),
+  UserList: lazy(() => import('@/pages/User/UserList.jsx')),
+  RoleList: lazy(() => import('@/pages/Role/RoleList.jsx')),
+  MenuList: lazy(() => import('@/pages/Menu/MenuList.jsx')),
+  DictList: lazy(() => import('@/pages/Dict/DictList.jsx')),
+  FileList: lazy(() => import('@/pages/File/FileList.jsx')),
+  Profile: lazy(() => import('@/pages/Profile/index.jsx')),
+  SysConfig: lazy(() => import('@/pages/SysConfig/index.jsx')),
+  LoginConfig: lazy(() => import('@/pages/SysConfig/LoginPageConfig.jsx')),
 }
 
 /**

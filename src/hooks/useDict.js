@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react'
-import { useDictStore } from '../store/dictStore'
+import { useDictStore } from '@/store/dictStore'
 
 /**
  * 字典数据 Hook

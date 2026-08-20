@@ -10,14 +10,14 @@ import {
   SafetyCertificateOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { uploadAvatar } from '../../api/user'
-import { useUserStore } from '../../store/userStore'
-import { getStorage, setStorage, STORAGE_KEYS } from '../../utils/storage'
-import { formatDateTime, AVATAR_UPDATED_EVENT } from '../../utils/helpers'
-import useFileUrl from '../../hooks/useFileUrl'
-import InfoForm from './components/InfoForm'
-import PasswordForm from './components/PasswordForm'
-import './profile.css'
+import { uploadAvatar } from '@/api/user'
+import { useUserStore } from '@/store/userStore'
+import { getStorage, setStorage, STORAGE_KEYS } from '@/utils/storage'
+import { formatDateTime, AVATAR_UPDATED_EVENT } from '@/utils/helpers'
+import useFileUrl from '@/hooks/useFileUrl'
+import InfoForm from '@/pages/Profile/components/InfoForm'
+import PasswordForm from '@/pages/Profile/components/PasswordForm'
+import '@/pages/Profile/profile.css'
 
 /**
  * 个人中心

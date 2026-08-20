@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { App, Button, Drawer, Form, Input, Select, Space, Table, Tag, Tooltip } from 'antd'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
-import Permission from '../../../components/Permission'
-import { deleteDictItem, getDictItemPage } from '../../../api/dict'
-import DictItemModal from './DictItemModal'
+import Permission from '@/components/Permission'
+import { deleteDictItem, getDictItemPage } from '@/api/dict'
+import DictItemModal from '@/pages/Dict/components/DictItemModal'
 
 const STATUS_OPTIONS = [
   { label: '正常', value: 1 },

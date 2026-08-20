@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { App, Form, Input, Modal, Select, Switch } from 'antd'
 import PropTypes from 'prop-types'
-import { saveUser, updateUser } from '../../../api/user'
+import { saveUser, updateUser } from '@/api/user'
 
 const EMAIL_REG = /^[\w.%+-]+@[\w-]+(\.[\w-]+)+$/
 const MOBILE_REG = /^1[3-9]\d{9}$/

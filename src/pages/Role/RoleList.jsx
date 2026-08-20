@@ -7,11 +7,11 @@ import {
   ReloadOutlined,
   SearchOutlined,
 } from '@ant-design/icons'
-import { deleteRole, getRolePage } from '../../api/role'
-import { formatDate } from '../../utils/helpers'
-import Permission from '../../components/Permission'
-import RoleModal from './components/RoleModal'
-import '../../styles/list-page.css'
+import { deleteRole, getRolePage } from '@/api/role'
+import { formatDate } from '@/utils/helpers'
+import Permission from '@/components/Permission'
+import RoleModal from '@/pages/Role/components/RoleModal'
+import '@/styles/list-page.css'
 
 const ROLE_STATUS_OPTIONS = [
   { label: '正常', value: '1' },

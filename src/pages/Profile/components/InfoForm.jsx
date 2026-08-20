@@ -1,6 +1,6 @@
 import { Descriptions, Tag } from 'antd'
-import { useUserStore } from '../../../store/userStore'
-import { formatDateTime } from '../../../utils/helpers'
+import { useUserStore } from '@/store/userStore'
+import { formatDateTime } from '@/utils/helpers'
 
 /**
  * 基本信息（只读）

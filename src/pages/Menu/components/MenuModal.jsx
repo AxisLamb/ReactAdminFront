@@ -10,10 +10,10 @@ import {
   TreeSelect,
 } from 'antd'
 import PropTypes from 'prop-types'
-import IconSelect from '../../../components/IconSelect'
-import { addMenu, getMenuListAll, updateMenu } from '../../../api/menu'
-import { listToTree } from '../../../utils/helpers'
-import { componentRegistry } from '../../../routes'
+import IconSelect from '@/components/IconSelect'
+import { addMenu, getMenuListAll, updateMenu } from '@/api/menu'
+import { listToTree } from '@/utils/helpers'
+import { componentRegistry } from '@/routes'
 
 /** 组件名称下拉候选（来自路由注册表） */
 const componentOptions = Object.keys(componentRegistry).map((name) => ({ value: name }))

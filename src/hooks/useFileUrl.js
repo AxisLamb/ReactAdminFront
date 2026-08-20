@@ -6,8 +6,8 @@
  * - 标签页从后台切回时校验链接是否已过期，弥补后台定时器被浏览器节流的场景
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getUserAvatarUrl } from '../api/user'
-import { buildAuthUrl } from '../utils/helpers'
+import { getUserAvatarUrl } from '@/api/user'
+import { buildAuthUrl } from '@/utils/helpers'
 
 /** 提前刷新余量：签名到期前 60s 刷新，规避时钟偏差与网络耗时 */
 const REFRESH_LEAD_MS = 60 * 1000

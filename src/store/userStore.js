@@ -1,16 +1,16 @@
 import { create } from 'zustand'
-import { login as loginApi, logout as logoutApi } from '../api/auth'
-import { getUserInfo } from '../api/user'
-import { getRoutes, getMenuList } from '../api/menu'
-import { collectPermissions, listToTree } from '../utils/helpers'
+import { login as loginApi, logout as logoutApi } from '@/api/auth'
+import { getUserInfo } from '@/api/user'
+import { getRoutes, getMenuList } from '@/api/menu'
+import { collectPermissions, listToTree } from '@/utils/helpers'
 import {
   setStorage,
   getStorage,
   removeStorage,
   clearStorage,
   STORAGE_KEYS,
-} from '../utils/storage'
-import { useTabStore } from './tabStore'
+} from '@/utils/storage'
+import { useTabStore } from '@/store/tabStore'
 
 // init 并发去重：进行中的初始化 Promise（StrictMode 双挂载 / 多组件共用）
 let initPromise = null

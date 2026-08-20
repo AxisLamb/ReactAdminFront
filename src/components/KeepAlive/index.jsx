@@ -1,12 +1,12 @@
 import { Suspense, useMemo } from 'react'
-import { useUserStore } from '../../store/userStore'
-import { useTabStore } from '../../store/tabStore'
+import { useUserStore } from '@/store/userStore'
+import { useTabStore } from '@/store/tabStore'
 import {
   componentRegistry,
   buildPathComponentMap,
   PageLoading,
   NotFound,
-} from '../../routes'
+} from '@/routes'
 
 /**
  * KeepAlive 缓存容器

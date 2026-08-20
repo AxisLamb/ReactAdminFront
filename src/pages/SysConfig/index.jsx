@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Card } from 'antd'
 import { PictureOutlined, RightOutlined } from '@ant-design/icons'
-import './sysconfig.css'
+import '@/pages/SysConfig/sysconfig.css'
 
 /**
  * 系统配置入口页（/sys/config）

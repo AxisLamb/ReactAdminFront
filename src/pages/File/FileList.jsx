@@ -10,14 +10,14 @@ import {
   ReloadOutlined,
   SearchOutlined,
 } from '@ant-design/icons'
-import { deleteFile, downloadFile, getFilePage } from '../../api/file'
-import Permission from '../../components/Permission'
-import { formatBytes, formatDateTime } from '../../utils/helpers'
-import { getFileMeta } from './fileMeta'
-import UploadPanel from './components/UploadPanel'
-import LinkModal from './components/LinkModal'
-import '../../styles/list-page.css'
-import './file-list.css'
+import { deleteFile, downloadFile, getFilePage } from '@/api/file'
+import Permission from '@/components/Permission'
+import { formatBytes, formatDateTime } from '@/utils/helpers'
+import { getFileMeta } from '@/pages/File/fileMeta'
+import UploadPanel from '@/pages/File/components/UploadPanel'
+import LinkModal from '@/pages/File/components/LinkModal'
+import '@/styles/list-page.css'
+import '@/pages/File/file-list.css'
 
 const MODULE_SUGGESTIONS = [{ value: 'default' }, { value: 'user' }]
 

@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { App, Button, Empty, Form, Input, Modal, Space, Spin, Switch, Tree } from 'antd'
 import { ApartmentOutlined, NodeExpandOutlined, ShrinkOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
-import { addRole, updateRole } from '../../../api/role'
-import { getMenuListAll } from '../../../api/menu'
-import { collectTreeKeys, listToTree, traverseTree } from '../../../utils/helpers'
+import { addRole, updateRole } from '@/api/role'
+import { getMenuListAll } from '@/api/menu'
+import { collectTreeKeys, listToTree, traverseTree } from '@/utils/helpers'
 
 /**
  * 从菜单树中筛出叶子节点 id（用于编辑回显）

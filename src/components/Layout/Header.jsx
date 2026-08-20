@@ -22,13 +22,13 @@ import {
   HighlightOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-import { useAppStore } from '../../store/appStore'
-import { useUserStore } from '../../store/userStore'
-import { useTabStore } from '../../store/tabStore'
-import { useTheme, THEME_LIST } from '../../hooks/useTheme'
-import { getStorage, STORAGE_KEYS } from '../../utils/storage'
-import { AVATAR_UPDATED_EVENT } from '../../utils/helpers'
-import useFileUrl from '../../hooks/useFileUrl'
+import { useAppStore } from '@/store/appStore'
+import { useUserStore } from '@/store/userStore'
+import { useTabStore } from '@/store/tabStore'
+import { useTheme, THEME_LIST } from '@/hooks/useTheme'
+import { getStorage, STORAGE_KEYS } from '@/utils/storage'
+import { AVATAR_UPDATED_EVENT } from '@/utils/helpers'
+import useFileUrl from '@/hooks/useFileUrl'
 
 function normalize(url) {
   if (!url) return ''

@@ -2,10 +2,10 @@
  * 全局基础样式
  * 引入变量与主题覆盖，设置全局重置、滚动条、页面过渡动效
  */
-@import './variables.css';
-@import './themes/dark.css';
-@import './themes/blue.css';
-@import './themes/green.css';
+@import '@/styles/variables.css';
+@import '@/styles/themes/dark.css';
+@import '@/styles/themes/blue.css';
+@import '@/styles/themes/green.css';
 
 * {
   box-sizing: border-box;

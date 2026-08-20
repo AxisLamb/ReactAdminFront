@@ -1,7 +1,7 @@
 import { Tabs as AntTabs, Dropdown, Button } from 'antd'
 import { ReloadOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-import { useTabStore } from '../../store/tabStore'
+import { useTabStore } from '@/store/tabStore'
 
 /**
  * 多标签栏

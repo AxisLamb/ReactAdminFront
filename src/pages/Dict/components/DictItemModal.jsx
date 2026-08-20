@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { App, Form, Input, InputNumber, Modal, Switch } from 'antd'
 import PropTypes from 'prop-types'
-import { addDictItem, updateDictItem } from '../../../api/dict'
+import { addDictItem, updateDictItem } from '@/api/dict'
 
 /**
  * 字典项新增 / 编辑弹窗

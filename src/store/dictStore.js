@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getDictItemsByType } from '../api/dict'
+import { getDictItemsByType } from '@/api/dict'
 
 /**
  * 字典缓存状态管理

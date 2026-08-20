@@ -10,14 +10,14 @@ import {
   UserOutlined,
   RightOutlined,
 } from '@ant-design/icons'
-import { getDashboardStatistics } from '../../api/dashboard'
-import { useUserStore } from '../../store/userStore'
-import { useAppStore } from '../../store/appStore'
-import { usePermission } from '../../hooks/usePermission'
-import { THEME_LIST } from '../../hooks/useTheme'
-import { getGreeting, formatDate, traverseTree } from '../../utils/helpers'
-import brandImg from '../../assets/login-brand.png'
-import './dashboard.css'
+import { getDashboardStatistics } from '@/api/dashboard'
+import { useUserStore } from '@/store/userStore'
+import { useAppStore } from '@/store/appStore'
+import { usePermission } from '@/hooks/usePermission'
+import { THEME_LIST } from '@/hooks/useTheme'
+import { getGreeting, formatDate, traverseTree } from '@/utils/helpers'
+import brandImg from '@/assets/login-brand.png'
+import '@/pages/Dashboard/dashboard.css'
 
 /**
  * 数字滚动动画 Hook（easeOutCubic）

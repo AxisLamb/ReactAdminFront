@@ -19,11 +19,11 @@ import {
   PictureOutlined,
   ReloadOutlined,
 } from '@ant-design/icons'
-import { getFileList, deleteFile } from '../../api/file'
-import { uploadLoginPageImage } from '../../api/sysConfig'
-import { getCarouselConfig, saveCarouselConfig } from '../../utils/loginConfig'
-import { formatFileSize, formatDate } from '../../utils/helpers'
-import './sysconfig.css'
+import { getFileList, deleteFile } from '@/api/file'
+import { uploadLoginPageImage } from '@/api/sysConfig'
+import { getCarouselConfig, saveCarouselConfig } from '@/utils/loginConfig'
+import { formatFileSize, formatDate } from '@/utils/helpers'
+import '@/pages/SysConfig/sysconfig.css'
 
 const { Dragger } = Upload
 

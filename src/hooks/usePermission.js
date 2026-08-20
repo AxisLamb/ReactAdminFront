@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useUserStore } from '../store/userStore'
+import { useUserStore } from '@/store/userStore'
 
 /**
  * 按钮级权限 Hook

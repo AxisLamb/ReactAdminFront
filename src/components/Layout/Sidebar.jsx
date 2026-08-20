@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import { Layout as AntLayout, Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { useAppStore } from '../../store/appStore'
-import { useUserStore } from '../../store/userStore'
-import { useTabStore } from '../../store/tabStore'
-import { MENU_ICONS } from '../IconSelect/iconMap'
-import { traverseTree } from '../../utils/helpers'
-import logoImg from '../../assets/logo.png'
+import { useAppStore } from '@/store/appStore'
+import { useUserStore } from '@/store/userStore'
+import { useTabStore } from '@/store/tabStore'
+import { MENU_ICONS } from '@/components/IconSelect/iconMap'
+import { traverseTree } from '@/utils/helpers'
+import logoImg from '@/assets/logo.png'
 
 // 菜单 url 归一化为路由 path（补前导 /）
 function normalize(url) {

@@ -4,7 +4,7 @@
  * 登录页（未登录态）与系统配置页（已登录态）同源共享读取
  */
 
-import { getStorage, setStorage, STORAGE_KEYS } from './storage'
+import { getStorage, setStorage, STORAGE_KEYS } from '@/utils/storage'
 
 /** 默认配置：关闭轮播，间隔 5 秒 */
 export const DEFAULT_CAROUSEL_CONFIG = { enabled: false, interval: 5 }

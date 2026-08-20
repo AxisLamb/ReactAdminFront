@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { App, Button, Card, Form, Input, Select, Space, Table, Tag, Tooltip } from 'antd'
 import { OrderedListOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons'
-import Permission from '../../components/Permission'
-import { deleteDict, getDictPage } from '../../api/dict'
-import { useDictStore } from '../../store/dictStore'
-import DictModal from './components/DictModal'
-import DictItemDrawer from './components/DictItemDrawer'
-import '../../styles/list-page.css'
+import Permission from '@/components/Permission'
+import { deleteDict, getDictPage } from '@/api/dict'
+import { useDictStore } from '@/store/dictStore'
+import DictModal from '@/pages/Dict/components/DictModal'
+import DictItemDrawer from '@/pages/Dict/components/DictItemDrawer'
+import '@/styles/list-page.css'
 
 /** 字典状态选项（字典自身状态无对应字典类型，使用固定选项避免循环依赖） */
 const STATUS_OPTIONS = [

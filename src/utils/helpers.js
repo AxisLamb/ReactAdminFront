@@ -3,7 +3,7 @@
  * 包含树结构遍历、权限收集、字节/日期格式化等
  */
 
-import { getStorage, STORAGE_KEYS } from './storage'
+import { getStorage, STORAGE_KEYS } from '@/utils/storage'
 
 /**
  * 递归遍历树形结构，对每个节点执行回调

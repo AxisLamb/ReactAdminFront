@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { App, Button, Form, Input, Progress } from 'antd'
 import { SafetyOutlined } from '@ant-design/icons'
-import { updateUser } from '../../../api/user'
-import { useUserStore } from '../../../store/userStore'
+import { updateUser } from '@/api/user'
+import { useUserStore } from '@/store/userStore'
 
 /** 计算密码强度（0-3）：长度 ≥8 / 字母+数字混合 / 含符号或长度 ≥12 */
 const getStrength = (pwd = '') => {

@@ -2,11 +2,11 @@ import { useEffect, useMemo } from 'react'
 import { ConfigProvider, App as AntApp } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom'
-import Login from './pages/Login/index.jsx'
-import Layout from './components/Layout/index.jsx'
-import { AuthGuard, buildRoutes } from './routes.jsx'
-import { useTheme } from './hooks/useTheme'
-import { useUserStore } from './store/userStore'
+import Login from '@/pages/Login/index.jsx'
+import Layout from '@/components/Layout/index.jsx'
+import { AuthGuard, buildRoutes } from '@/routes.jsx'
+import { useTheme } from '@/hooks/useTheme'
+import { useUserStore } from '@/store/userStore'
 
 /**
  * 数据路由组装

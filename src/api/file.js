@@ -1,4 +1,4 @@
-import request, { downloadBlob } from '../utils/request'
+import request, { downloadBlob } from '@/utils/request'
 
 /**
  * 文件管理接口

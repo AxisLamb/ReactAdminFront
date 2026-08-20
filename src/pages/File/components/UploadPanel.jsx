@@ -1,7 +1,7 @@
 import { App, Card, Form, Input, Select, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
-import { uploadFile } from '../../../api/file'
+import { uploadFile } from '@/api/file'
 
 const { Dragger } = Upload
 
