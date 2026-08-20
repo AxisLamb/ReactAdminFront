@@ -17,6 +17,11 @@
 ![角色配置](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E8%A7%92%E8%89%B2%E9%85%8D%E7%BD%AE.png)
 ![登录页轮播配置](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%99%BB%E5%BD%95%E9%A1%B5%E8%BD%AE%E8%AF%A2%E9%85%8D%E7%BD%AE.png)
 
+监控
+![SpringBootAdmin监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/SpringBootAdmin%E7%9B%91%E6%8E%A7.png)
+![接口文档API](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3API.png)
+![数据库监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%91%E6%8E%A7.png)
+
 ### 技术栈
 
 #### 后端技术栈
