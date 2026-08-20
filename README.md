@@ -10,7 +10,7 @@
 
 登录账号：admin / admin123
 
-![登录页轮播](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%99%BB%E5%BD%95%E9%A1%B5.png?Expires=1787202269&OSSAccessKeyId=TMP.3KwEuKLTv2WCXjEScsNRutX4zA5Q2v9jD5yCP3ZtpaYL3JecXr9pfnUmgGH8FiL8ooDU4gPXVLwoiiWaqRTmdEGc5AxYyq&Signature=uzBy%2BOusPPeJ2ezs6kB5GdzlqA4%3D)
+![登录页轮播](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%99%BB%E5%BD%95%E9%A1%B5.png)
 ![系统页面](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%B3%BB%E7%BB%9F%E9%A1%B5%E9%9D%A2.png)
 ![菜单权限以及接口权限](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E8%8F%9C%E5%8D%95%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8A%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90.png)
 ![文件管理](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86.png)
