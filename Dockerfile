@@ -1,4 +1,4 @@
-FROM registry.cn-shenzhen.aliyuncs.com/lain_docker_server/nginx::1.17
+FROM registry.cn-shenzhen.aliyuncs.com/lain_docker_server/nginx:1.17
 MAINTAINER Lain <<494576412@qq.com>>
 
 COPY nginx.template /etc/nginx/conf.d/nginx.template
