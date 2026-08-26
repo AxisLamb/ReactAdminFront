@@ -22,6 +22,10 @@
 ![接口文档API](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3API.png)
 ![数据库监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%91%E6%8E%A7.png)
 
+### docker 部署
+
+参考[DEPLOY_dockercompose.md](DEPLOY_dockercompose.md)
+
 ### 技术栈
 
 #### 后端技术栈
@@ -68,6 +72,12 @@ npm run dev
 
 #### 数据库配置示例
 ```yaml
+
+os:
+  # 数据库类型：mysql / postgresql / sqlserver / oracle，切换后自动加载 application-dev/db-<type>.yml
+  db:
+    type: sqlserver
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -95,19 +105,21 @@ spring:
 ```yaml
 os:
   file:
-    type: MINIO # 支持 LOCAL, MINIO, ALIYUN 等
+    # 可选LOCAL, MINIO, ALIYUN
+    type: LOCAL 
     local:
-      base-path: ./uploads # 本地存储路径
-    
+      # 实际存储路径（项目根路径下）
+      base-path: ./uploads/
+
     minio:
-      endpoint: http://localhost:9000
+      endpoint: http://xxx:9000
       access-key: admin
       secret-key: password
-    
+
     aliyun:
-      endpoint: your-endpoint
-      access-key-id: your-access-key-id
-      access-key-secret: your-access-key-secret
+      endpoint: xxx
+      access-key-id: xxx
+      access-key-secret: xxx
 ```
 
 
@@ -123,13 +135,27 @@ os:
 ```yaml
 os:
   cache:
-    type: REDIS  # 支持 LOCAL, REDIS
+    type: REDIS  # 支持 CAFFEINE, REDIS
     redis:
       # ip: 10.10.10.181
       ip: localhost
       port: 6379
       password: '123456'
       database: 0
+```
+
+如果改为用CAFFEINE，则pom中需要打开sa-token-caffeine的注释，同时注释sa token Redis的配置，如下：
+```
+<dependency>
+    <groupId>cn.dev33</groupId>
+    <artifactId>sa-token-caffeine</artifactId>
+    <version>1.41.0</version>
+</dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-redis-jackson</artifactId>-->
+<!--            <version>${sa-token.version}</version>-->
+<!--        </dependency>-->        
 ```
 
 
