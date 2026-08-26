@@ -8,6 +8,24 @@
 
 整个系统只有 7 张核心表和 2 张审计日志表，但用户管理、角色权限、菜单配置、操作日志、文件管理、数据字典这些后台必备的能力全都包含在内。你可以把它当成一个“刚刚好”的起点，无论是拿来直接做项目，还是作为学习 RBAC 和 Spring Boot + React 全家桶的示例，都挺合适。
 
+### 技术栈
+
+#### 后端技术栈
+- **编程语言**: Java 21
+- **框架**: Spring Boot 3.2.0
+- **持久层**: MyBatis-Plus 3.5.15
+- **安全认证**: Sa-Token 1.40.0
+- **数据库连接池**: Druid 1.2.20
+- **文档工具**: Knife4j 4.4.0
+- **后端仓库**: [ReactAdmin](https://github.com/AxisLamb/ReactAdmin)
+
+#### 前端技术栈
+- **运行环境**: Node.js 22.17.0
+- **React版本**: 19.x
+- **构建工具**: Vite 7.x
+- **UI框架**: Ant Design React 5.x
+- **前端仓库**: [ReactAdminFront](https://github.com/AxisLamb/ReactAdminFront)
+
 ### 网站演示
 
 PS：该网站只做演示作用，系统监控功能暂不开启，如果想查看系统监控功能请本地部署，参考：[DEPLOY_dockercompose.md](DEPLOY_dockercompose.md)
@@ -66,24 +84,6 @@ PS：该网站只做演示作用，系统监控功能暂不开启，如果想查
 ![SpringBootAdmin监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/SpringBootAdmin%E7%9B%91%E6%8E%A7.png)
 ![接口文档API](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3API.png)
 ![数据库监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%91%E6%8E%A7.png)
-
-### 技术栈
-
-#### 后端技术栈
-- **编程语言**: Java 21
-- **框架**: Spring Boot 3.2.0
-- **持久层**: MyBatis-Plus 3.5.15
-- **安全认证**: Sa-Token 1.40.0
-- **数据库连接池**: Druid 1.2.20
-- **文档工具**: Knife4j 4.4.0
-- **后端仓库**: [ReactAdmin](https://github.com/AxisLamb/ReactAdmin)
-
-#### 前端技术栈
-- **运行环境**: Node.js 22.17.0
-- **React版本**: 19.x
-- **构建工具**: Vite 7.x
-- **UI框架**: Ant Design React 5.x
-- **前端仓库**: [ReactAdminFront](https://github.com/AxisLamb/ReactAdminFront)
 
 ## 后端启动方法
 如果没有数据库需要预先安装数据库。执行命令：
