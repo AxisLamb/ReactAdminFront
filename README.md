@@ -16,6 +16,9 @@
 - **持久层**: MyBatis-Plus 3.5.15
 - **安全认证**: Sa-Token 1.40.0
 - **数据库连接池**: Druid 1.2.20
+- **支持数据库**: PostgreSQL, MySQL, Oracle, SQLServer
+- **支持缓存层**: REDIS, Caffeine
+- **支持OSS**: 本地存储，MINIO, 阿里云
 - **文档工具**: Knife4j 4.4.0
 - **后端仓库**: [ReactAdmin](https://github.com/AxisLamb/ReactAdmin)
 
@@ -86,14 +89,16 @@ PS：该网站只做演示作用，系统监控功能暂不开启，如果想查
 ![数据库监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%91%E6%8E%A7.png)
 
 ## 后端启动方法
-如果没有数据库需要预先安装数据库。执行命令：
+
+PS：如果没有数据库需要预先安装数据库，系统默认使用本地存储以及本地缓存，以减少启动所需要的配置，可以按需改为REDIS缓存以及其他OSS存储。
+执行命令：
 ```bash
 mvn clean install
 ```
-参考下面的`数据库配置示例`，`文件存储配置示例`，`缓存配置示例` 修改配置文件 `application-dev.yml`，并启动项目。
+参考下面的`数据库配置示例`，`文件存储配置示例`，`缓存配置示例` 修改配置文件 `application-dev.yml`以及application-dev文件夹下面的`db-xxx.yml`文件，并启动项目。
 
 ## 前端启动方法
-
+分别执行命令：
 ```bash
 npm install
 npm run dev
@@ -123,16 +128,18 @@ os:
   # 数据库类型：mysql / postgresql / sqlserver / oracle，切换后自动加载 application-dev/db-<type>.yml
   db:
     type: sqlserver
+```
 
+修改application-dev文件夹下面的`db-xxx.yml`配置
+```
+# dev 环境数据库连接 - MySQL（os.db.type=mysql 时加载）
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      # SQL Server 配置示例，可以按需改成MySQL，Oracle，PostgreSQL数据库等
-      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      url: jdbc:sqlserver://localhost:1433;DatabaseName=test;encrypt=false
-      username: sa
-      password: admin123
+    datasource:
+        druid:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://xxx:3307/lain_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+            username: root
+            password: 123456
 ```
 
 
@@ -152,7 +159,7 @@ spring:
 os:
   file:
     # 可选LOCAL, MINIO, ALIYUN
-    type: LOCAL 
+    type: LOCAL
     local:
       # 实际存储路径（项目根路径下）
       base-path: ./uploads/
