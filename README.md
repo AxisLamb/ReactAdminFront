@@ -22,10 +22,6 @@
 ![接口文档API](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3API.png)
 ![数据库监控](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%91%E6%8E%A7.png)
 
-### docker 部署
-
-参考[DEPLOY_dockercompose.md](DEPLOY_dockercompose.md)
-
 ### 技术栈
 
 #### 后端技术栈
@@ -52,11 +48,16 @@ mvn clean install
 参考下面的`数据库配置示例`，`文件存储配置示例`，`缓存配置示例` 修改配置文件 `application-dev.yml`，并启动项目。
 
 ## 前端启动方法
-To start the frontend application, simply run these two commands:
+
 ```bash
 npm install
 npm run dev
 ```
+
+## Docker简单部署启动
+
+参考[DEPLOY_dockercompose.md](DEPLOY_dockercompose.md)
+
 
 ## 核心特性
 
