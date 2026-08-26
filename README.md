@@ -6,9 +6,54 @@
 
 做这个项目的初衷很简单：市面上大多数后台管理系统要么太重，依赖一堆复杂组件，上手门槛高；要么太轻，只搭了个壳子，离实际开发还有一段距离。我希望能做一个介于两者之间的东西——功能完整，但结构足够清晰，代码也足够干净。
 
-整个系统只有 7 张表，但用户管理、角色权限、菜单配置、操作日志、文件管理、数据字典这些后台必备的能力全都包含在内。你可以把它当成一个“刚刚好”的起点，无论是拿来直接做项目，还是作为学习 RBAC 和 Spring Boot + React 全家桶的示例，都挺合适。
+整个系统只有 7 张核心表和 2 张审计日志表，但用户管理、角色权限、菜单配置、操作日志、文件管理、数据字典这些后台必备的能力全都包含在内。你可以把它当成一个“刚刚好”的起点，无论是拿来直接做项目，还是作为学习 RBAC 和 Spring Boot + React 全家桶的示例，都挺合适。
 
-登录账号：admin / admin123
+### 网站演示
+
+PS：该网站只做演示作用，系统监控功能暂不开启，如果想查看系统监控功能请本地部署，参考：[DEPLOY_dockercompose.md](DEPLOY_dockercompose.md)
+
+线上演示：http://159.75.14.156/login
+
+```
+管理员登录：
+登录账号：admin
+登录密码：admin123
+```
+
+权限测试01：
+```
+用户列表权限，登录后有查看用户列表的权限
+登录账号：listuser
+登录密码：123456
+```
+![用户列表](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/listuser.png)
+
+
+权限测试02：
+```
+用户新增权限，登录后有新增用户的权限
+登录账号：adduser
+登录密码：123456
+```
+![新增用户](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/adduser.png)
+
+权限测试03：
+```
+用户编辑权限，登录后有编辑用户的权限
+登录账号：updateuser
+登录密码：123456
+```
+![编辑用户](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/updateuser.png)
+
+权限测试04：
+```
+用户删除权限，登录后有删除用户的权限
+登录账号：deleteuser
+登录密码：123456
+```
+![删除用户](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/deleteuser.png)
+
+### 页面截图
 
 ![登录页轮播](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%99%BB%E5%BD%95%E9%A1%B5.png)
 ![系统页面](https://lain-test-oss.oss-cn-shenzhen.aliyuncs.com/%E7%B3%BB%E7%BB%9F%E9%A1%B5%E9%9D%A2.png)
