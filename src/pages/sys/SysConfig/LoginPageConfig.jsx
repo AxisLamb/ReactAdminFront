@@ -19,7 +19,7 @@ import {
   PictureOutlined,
   ReloadOutlined,
 } from '@ant-design/icons'
-import { getFileList, deleteFile } from '@/api/file'
+import { getFileList, getFileUrlByFileId, deleteFile } from '@/api/file'
 import { uploadLoginPageImage } from '@/api/sysConfig'
 import { getCarouselConfig, saveCarouselConfig } from '@/utils/loginConfig'
 import { formatFileSize, formatDate } from '@/utils/helpers'
@@ -179,7 +179,13 @@ function LoginPageConfig() {
               size="small"
               icon={<EyeOutlined />}
               disabled={!record.filePath}
-              onClick={() => window.open(record.filePath, '_blank')}
+              onClick={() => {
+                getFileUrlByFileId(record.fileId)
+                .then((data) => {
+                  window.open(data, '_blank')
+                })
+                
+              }}
             >
               预览
             </Button>
